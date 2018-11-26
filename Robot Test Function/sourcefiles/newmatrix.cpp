@@ -188,11 +188,12 @@ MatrixXd repmat(Eigen::MatrixXd matrix, double order[2]) {
 }
 
 Matrix4D mmat(Matrix4D* A, Matrix4D* B) { //mmat(A,B,[1 2]) default
-	Matrix4D m3, m4;
+	//Matrix4D m3, m4;
 	int temp[4] = { 2, 3 ,0 ,1 };
-	m3 = (*A).permute(temp);
-	m4 = (*B).permute(temp);
-
+	//tic(permute)
+	//m3 = (*A).permute(temp);
+	//m4 = (*B).permute(temp);
+	//toc(permute)
 	/*auto future = std::async(&Matrix4D::permute, A, new int[4]{ 2, 3 ,0 ,1 });
 	auto future2 = std::async(&Matrix4D::permute, B, new int[4]{ 2, 3 ,0 ,1 });
 
@@ -208,6 +209,8 @@ Matrix4D mmat(Matrix4D* A, Matrix4D* B) { //mmat(A,B,[1 2]) default
 	//AA.resize(m3(0, 0).rows()*m3.getSize(0)*m3.getSize(1), m3(0, 0).cols());
 	//BB.resize(m4(0, 0).rows(), m4(0, 0).cols()*m4.getSize(1)*m4.getSize(0));
 	//#pragma omp parallel for collapse(2) num_threads(1)
+	//tic(old)
+	/*
 	for (int i = 0; i < m3.getSize(0); i++)
 	{
 		for (int j = 0; j < m3.getSize(1); j++)
@@ -225,18 +228,64 @@ Matrix4D mmat(Matrix4D* A, Matrix4D* B) { //mmat(A,B,[1 2]) default
 					for (int k = 0; k < m4(i, j).rows(); k++)
 						newMatrix(n, m) += m3(i, j)(n,k)*m4(i, j)(k,m);
 				}
-			m3(i, j) = newMatrix;*/
+			m3(i, j) = newMatrix;\
 			
 			
 		}
 	}
+	*/
 	
+	//toc(old)
+		
+		//Matrix4D tempor = Matrix4D(m3.permute(temp).getSize(0), m3.permute(temp).getSize(1), m3.permute(temp).getSize(2), m3.permute(temp).getSize(3));
+		Matrix4D tempor = Matrix4D((*A).getSize(0), (*B).getSize(1), (*A).getSize(2), (*A).getSize(3));
+	//tic(neww)
+	
+	for (int k = 0; k < (*B).getSize(0); k++)
+	 {
+		 
+		 for (int m = 0; m < (*B).getSize(1); m++)
+		 {
+			 
+			 for (int n = 0; n < (*A).getSize(0); n++)
+			 {
+				 #pragma omp parallel for num_threads(3)
+				for (int j = 0; j < (*A).getSize(3); j++)
+					{
+						#pragma omp simd
+						for (int i = 0; i < (*A).getSize(2); i++)
+							{
+						/*
+						cout << endl << "tempor" << endl << tempor(n, m, i, j) << endl;
+						cout << endl << " (*A)(n,k,i,j)" << endl << (*A)(n, k, i, j) << endl;
+						cout << endl << " (*B)(k,m,i,j)" << endl << (*B)(k, m, i, j) << endl;
+						cout << endl << "i " << i << " (*A).getSize(2) " << (*A).getSize(2) << " (*B).getSize(2) " << (*B).getSize(2) << " tempor.getSize(2) " << tempor.getSize(2) << endl
+							<< "j " << j << " (*A).getSize(3) " << (*A).getSize(3) << " (*B).getSize(3) " << (*B).getSize(3) << " tempor.getSize(3) " << tempor.getSize(3) << endl
+							<< "m " << m << " (*B).getSize(1) " << (*B).getSize(1) << " tempor.getSize(1) " << tempor.getSize(1) << endl
+							<< "n " << n << " (*A).getSize(0) " << (*A).getSize(0) << " tempor.getSize(0) " << tempor.getSize(0) << endl
+							<< "k " << k << " (*A).getSize(1) " << (*A).getSize(1) << " (*B).getSize(0) " << (*B).getSize(0) << endl;
+						cout << "i " << i << endl;
+						cout << tempor.m[n][m].rows() << " " << tempor.m[n][m].cols() << endl;
+						cout << (*A).m[n][m].rows() << " " << (*A).m[n][m].cols() << endl;
+						cout << (*B).m[n][m].rows() << " " << (*B).m[n][m].cols() << endl;*/
+						//double ultratemp = (*A)(n, k, i, j)*(*B)(k, m, i, j);
+
+							tempor(n, m, i, j) += (*A)(n, k, i, j)*(*B)(k, m, i, j);
+						}
+				}
+			}
+		}
+		
+	}
+
+		//toc(neww)
 	//timeMult.stop();
 	//cout << "mmat time = " << duration(timeNow() - t1) << "microseconds" << endl;
 	//cout << "mmat() end " << endl;
-	m3.size[2] = m3.m[0][0].rows();
-	m3.size[3] = m3.m[0][0].cols();
-	return m3.permute(temp);
+	//m3.size[2] = m3.m[0][0].rows();
+	//m3.size[3] = m3.m[0][0].cols();
+	return tempor;
+	//return m3.permute(temp);
 }
 
 MatrixXd Matrix4D::return2DMatrix(int dimensions[2], int index[2])

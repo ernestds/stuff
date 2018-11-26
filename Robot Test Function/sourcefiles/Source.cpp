@@ -154,7 +154,6 @@ void lala()
 int main()
 {
 
-		
 	sensorToDataset = Transformation(MatrixXd::Identity(3,3), Vector3d::Zero(),1);
 	sensorToRobot = Transformation(MatrixXd::Identity(3, 3), Vector3d::Zero(), 1);
 	string s = "trajectory";

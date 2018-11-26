@@ -1,0 +1,1 @@
+/usr/bin/c++    -rdynamic CMakeFiles/Teste.dir/cartesian_impedance_control.cpp.o CMakeFiles/Teste.dir/Sonig.cpp.o CMakeFiles/Teste.dir/newmatrix.cpp.o  -o Teste -Wl,-rpath,/home/ernesto/libfranka/build: libexamples_common.a /home/ernesto/libfranka/build/libfranka.so.0.5.0 -pthread 

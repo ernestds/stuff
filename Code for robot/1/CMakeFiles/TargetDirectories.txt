@@ -1,0 +1,8 @@
+/home/ernesto/Desktop/thatToCMAKE/CMakeFiles/install/strip.dir
+/home/ernesto/Desktop/thatToCMAKE/CMakeFiles/install/local.dir
+/home/ernesto/Desktop/thatToCMAKE/CMakeFiles/Teste.dir
+/home/ernesto/Desktop/thatToCMAKE/CMakeFiles/examples_common.dir
+/home/ernesto/Desktop/thatToCMAKE/CMakeFiles/rebuild_cache.dir
+/home/ernesto/Desktop/thatToCMAKE/CMakeFiles/edit_cache.dir
+/home/ernesto/Desktop/thatToCMAKE/CMakeFiles/list_install_components.dir
+/home/ernesto/Desktop/thatToCMAKE/CMakeFiles/install.dir

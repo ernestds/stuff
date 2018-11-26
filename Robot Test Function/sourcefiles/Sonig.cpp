@@ -48,7 +48,7 @@ distribution Sonig::sonigStochasticPrediction(MatrixXd xDist_mean, MatrixXd xDis
 	//makeTimer(t1);
 	diff = Xu - repmat(xDist_mean, temp);
 	
-	//t1.stop();
+	//toc(t1)
 	//q(:,i) = sonig.hyp.ly(i)^2/sqrt(det(xDist.cov)*det(inv(xDist.cov) + diag(1./sonig.hyp.lx(:).^2)))*exp(-1/2*sum((diff'/(diag(sonig.hyp.lx(:).^2) + xDist.cov)).*diff', 2));
 	
 	//makeTimer(t2);
@@ -62,15 +62,9 @@ distribution Sonig::sonigStochasticPrediction(MatrixXd xDist_mean, MatrixXd xDis
 	C.diagonal() = hyp_lx.cwiseProduct(hyp_lx);
 	
 	
-
-	//  Insert the code that will be timed
-
-	
-
-	// Store the time difference between start and end
 	
 	q_ = 1 / sqrt(A.determinant()*xDist_cov.determinant()) * hyp_ly * hyp_ly * (((diff.transpose()*(xDist_cov + C).inverse()).cwiseProduct(diff.transpose())).rowwise().sum() * -0.5).unaryExpr(&Exp);
-	//t2.stop();
+	//toc(t2)
 	//makeTimer(t3);
 	//xn
 	//G[0] = xn = repmat(permute(diffNormalized(:, : , i), [1, 3, 2, 4]), [1, 1, 1, sonig.nu]) + repmat(permute(diffNormalized(:, : , j), [1, 3, 4, 2]), [1, 1, sonig.nu, 1]);
@@ -79,7 +73,7 @@ distribution Sonig::sonigStochasticPrediction(MatrixXd xDist_mean, MatrixXd xDis
 	{
 		diffNormalized.row(i) = diff.row(i) / pow(hyp_lx(i), 2);
 	}
-	//t3.stop();
+	//toc(t3)
 	//makeTimer(t4);
 	Matrix4D F, G[2];
 	//cout << "a" << endl;
@@ -107,7 +101,7 @@ distribution Sonig::sonigStochasticPrediction(MatrixXd xDist_mean, MatrixXd xDis
 	int temp3[4] = { 1, 1,1,1 };
 	temp3[2] = (int)nu;
 	G[1] = tempMatrix2.repmat(temp3);
-	//t4.stop();
+	//toc(t4)
 	//makeTimer(t5);
 	//G[0] = G[0] + G[1];
 
@@ -117,7 +111,7 @@ distribution Sonig::sonigStochasticPrediction(MatrixXd xDist_mean, MatrixXd xDis
 	for (idx[0] = 0; idx[0] < G[0].size[0]; idx[0]++)
 		for (idx[1] = 0; idx[1] < G[0].size[1]; idx[1]++)
 			G[0].m[idx[0]][idx[1]] = G[0].m[idx[0]][idx[1]] + G[1].m[idx[0]][idx[1]];
-	//t5.stop();
+	//toc(t5)
 	//cout << "c" << endl;
 	//Q(:,:,i,j)
 	//Q(:,:,i,j) = sonig.hyp.ly(i)^2*sonig.hyp.ly(j)^2/sqrt(det(xDist.cov)*det(inv(xDist.cov) + diag(1./sonig.hyp.lx(:).^2) + diag(1./sonig.hyp.lx(:).^2)))*(exp(-1/2*sum(diffNormalized(:,:,i).*diff,1))'*exp(-1/2*sum(diffNormalized(:,:,j).*diff,1))).*permute(exp(1/2*mmat(mmat(permute(xn,[2,1,3,4]), repmat(inv(inv(xDist.cov) + diag(1./sonig.hyp.lx(:).^2) + diag(1./sonig.hyp.lx(:).^2)), [1,1,sonig.nu,sonig.nu])), xn)),[3,4,1,2]);
@@ -138,7 +132,7 @@ distribution Sonig::sonigStochasticPrediction(MatrixXd xDist_mean, MatrixXd xDis
 	temp4[2] = (int)nu;
 	F = repmat(A.inverse(), temp4); 
 	//cout << "d" << endl;
-	//t6.stop();
+	//toc(t6)
 	//makeTimer(t7);
 	int temp5[4] = { 1, 0, 2, 3 };
 	Matrix4D H = G[0].permute(temp5); //permute(xn,[2,1,3,4])
@@ -148,7 +142,7 @@ distribution Sonig::sonigStochasticPrediction(MatrixXd xDist_mean, MatrixXd xDis
 	//cout << "f" << endl;
 	H.deleteMatrix();
 	H = mmat(&tempMatrix3, &G[0]);
-	//t7.stop();
+	//toc(t7)
 	//cout << "g" << endl;
 	
 	// btw this is missing fCov(i,i) = max(fCov(i,i),1e-16); at the end of the function
@@ -163,17 +157,17 @@ distribution Sonig::sonigStochasticPrediction(MatrixXd xDist_mean, MatrixXd xDis
 	//cout << "i" << endl;
 	Q_ = B * E.cwiseProduct(Q_); 
 
-	//t8.stop();
+	//toc(t8)
 	//makeTimer(t9);
 	MatrixXd fMean = ((q_.transpose()*Kuu_inverse)*fu_mean);
 	MatrixXd fCov = MatrixXd::Zero(1, 1);// ((hyp_ly * hyp_ly) - ((Kuu.fullPivHouseholderQr().solve((Kuu - fu_cov)) * Kuu_inverse * Q_)).trace());
 	fCov << ((hyp_ly * hyp_ly) - ((fCovPart1 * Q_)).trace());
-	//t9.stop();
+	//toc(t9)
 	//makeTimer(t10);
 	distribution Distribution;
 	Distribution.mean = fMean;
 	Distribution.cov = fCov + ((fu_mean.transpose()*Kuu_inverse*Q_*Kuu_inverse*fu_mean) - (fMean * fMean));
-	//t10.stop();
+	//toc(t10)
 	/*
 	G[0].deleteMatrix();
 	G[1].deleteMatrix();

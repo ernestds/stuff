@@ -6,11 +6,11 @@
 
 #IncludeRegexTransform: 
 
-/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/Robot Test Function/sourcefiles/Sonig.cpp
+/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/toGIT/Robot Test Function/sourcefiles/Sonig.cpp
 Sonig.h
-/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/Robot Test Function/sourcefiles/Sonig.h
+/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/toGIT/Robot Test Function/sourcefiles/Sonig.h
 
-/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/Robot Test Function/sourcefiles/Sonig.h
+/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/toGIT/Robot Test Function/sourcefiles/Sonig.h
 iostream
 -
 iomanip
@@ -26,15 +26,15 @@ cmath
 Eigen/Dense
 -
 newmatrix.h
-/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/Robot Test Function/sourcefiles/newmatrix.h
+/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/toGIT/Robot Test Function/sourcefiles/newmatrix.h
 myTimer.h
-/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/Robot Test Function/sourcefiles/myTimer.h
+/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/toGIT/Robot Test Function/sourcefiles/myTimer.h
 
-/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/Robot Test Function/sourcefiles/Source.cpp
+/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/toGIT/Robot Test Function/sourcefiles/Source.cpp
 iostream
 -
 newmatrix.h
-/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/Robot Test Function/sourcefiles/newmatrix.h
+/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/toGIT/Robot Test Function/sourcefiles/newmatrix.h
 algorithm
 -
 fstream
@@ -42,13 +42,13 @@ fstream
 stdio.h
 -
 Sonig.h
-/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/Robot Test Function/sourcefiles/Sonig.h
+/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/toGIT/Robot Test Function/sourcefiles/Sonig.h
 myTimer.h
-/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/Robot Test Function/sourcefiles/myTimer.h
+/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/toGIT/Robot Test Function/sourcefiles/myTimer.h
 miscFunctions.h
-/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/Robot Test Function/sourcefiles/miscFunctions.h
+/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/toGIT/Robot Test Function/sourcefiles/miscFunctions.h
 trajectoryGeneration.h
-/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/Robot Test Function/sourcefiles/trajectoryGeneration.h
+/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/toGIT/Robot Test Function/sourcefiles/trajectoryGeneration.h
 string
 -
 mutex
@@ -58,21 +58,21 @@ thread
 atomic
 -
 
-/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/Robot Test Function/sourcefiles/miscFunctions.cpp
+/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/toGIT/Robot Test Function/sourcefiles/miscFunctions.cpp
 miscFunctions.h
-/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/Robot Test Function/sourcefiles/miscFunctions.h
+/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/toGIT/Robot Test Function/sourcefiles/miscFunctions.h
 
-/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/Robot Test Function/sourcefiles/miscFunctions.h
+/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/toGIT/Robot Test Function/sourcefiles/miscFunctions.h
 Eigen/Dense
 -
 fstream
 -
 
-/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/Robot Test Function/sourcefiles/myTimer.cpp
+/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/toGIT/Robot Test Function/sourcefiles/myTimer.cpp
 myTimer.h
-/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/Robot Test Function/sourcefiles/myTimer.h
+/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/toGIT/Robot Test Function/sourcefiles/myTimer.h
 
-/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/Robot Test Function/sourcefiles/myTimer.h
+/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/toGIT/Robot Test Function/sourcefiles/myTimer.h
 string
 -
 chrono
@@ -80,11 +80,11 @@ chrono
 iostream
 -
 
-/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/Robot Test Function/sourcefiles/newmatrix.cpp
+/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/toGIT/Robot Test Function/sourcefiles/newmatrix.cpp
 newmatrix.h
-/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/Robot Test Function/sourcefiles/newmatrix.h
+/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/toGIT/Robot Test Function/sourcefiles/newmatrix.h
 
-/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/Robot Test Function/sourcefiles/newmatrix.h
+/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/toGIT/Robot Test Function/sourcefiles/newmatrix.h
 iostream
 -
 Eigen/Dense
@@ -100,7 +100,7 @@ stdexcept
 cmath
 -
 myTimer.h
-/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/Robot Test Function/sourcefiles/myTimer.h
+/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/toGIT/Robot Test Function/sourcefiles/myTimer.h
 mutex
 -
 thread
@@ -112,11 +112,11 @@ atomic
 future
 -
 
-/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/Robot Test Function/sourcefiles/trajectoryGeneration.cpp
+/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/toGIT/Robot Test Function/sourcefiles/trajectoryGeneration.cpp
 trajectoryGeneration.h
-/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/Robot Test Function/sourcefiles/trajectoryGeneration.h
+/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/toGIT/Robot Test Function/sourcefiles/trajectoryGeneration.h
 
-/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/Robot Test Function/sourcefiles/trajectoryGeneration.h
+/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/toGIT/Robot Test Function/sourcefiles/trajectoryGeneration.h
 Eigen/Dense
 -
 unsupported/Eigen/Polynomials
