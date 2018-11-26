@@ -1,0 +1,5 @@
+set grid
+plot "misc/pred" using 1:2 title "Prediction Mean" with lines lw 3, \
+ "misc/trueTraj"  using 1:2 title "True Trajectory" with lines lw 3, \
+ "misc/pred"  using 1:3 title "2 Std. Variations" with lines lw 3, \
+ "misc/pred"  using 1:4  title "2 Std. Variations" with lines lw 3
