@@ -5,7 +5,8 @@
 using namespace std;
 typedef std::chrono::high_resolution_clock::time_point TimeVar;
 #define makeTimer(Variable) myTimer Variable((string)#Variable)
-
+#define tic(Variable) myTimer Variable((string)#Variable);
+#define toc(Variable) Variable.stop();
 class myTimer
 {
 public:
