@@ -188,8 +188,8 @@ int main()
 			}
 			timeXPred.stop();
 			cout << dataPred(PRED_STEPS-1, 0) << endl;
-		//curve_plot(dataPred, dataTrue);
-		//cin.get();
+		curve_plot(dataPred, dataTrue);
+		cin.get();
 	}
 	system("pause");
 }

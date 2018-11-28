@@ -34,7 +34,7 @@ public:
 	MatrixXd E;
 	MatrixXd Xu;// number of inputs, number of induction points
 	MatrixXd diff;
-	Matrix4D F, G[2];
+	
 	MatrixXd xDist_mean;//number of inputs, number of inputs
 	MatrixXd Q_, D;
 

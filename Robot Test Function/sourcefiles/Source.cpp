@@ -134,6 +134,7 @@ void make_prediction()
 			}
 			prediction.mtx.unlock();
 			predTime.stop();
+			cout << "\n" << predMean(PRED_STEPS-1, 0) << "\n";
 			//cout << prediction.mean[PRED_STEPS - 1](0) << endl; 
 		}
 	} //while(running)

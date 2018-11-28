@@ -17,7 +17,7 @@ Matrix4D::Matrix4D(int p1, int p2, int p3, int p4)
 	{
 		m[i] = new Eigen::MatrixXd[p2];
 	}*/
-	vector< MatrixXd > temp(p2,MatrixXd(p3,p4));
+	vector< MatrixXd > temp(p2,MatrixXd::Zero(p3,p4));
 	m = vector< vector<MatrixXd> >(p1, temp);
 }
 

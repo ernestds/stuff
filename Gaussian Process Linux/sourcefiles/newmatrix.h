@@ -10,6 +10,7 @@
 #include "myTimer.h"
 #include <mutex>
 #include <thread>
+#include <vector>
 #include <atomic>
 #include <future>
 using namespace Eigen;
@@ -22,12 +23,14 @@ typedef std::chrono::high_resolution_clock::time_point TimeVar;
 class Matrix4D
 {
 public:
-	Eigen::MatrixXd **m;
+	EIGEN_MAKE_ALIGNED_OPERATOR_NEW
+	//Eigen::MatrixXd **m;
+	vector< vector<MatrixXd> > m;
 	int size[4], order[4];
 	Matrix4D(int p1, int p2, int p3, int p4);
 	//Matrix4D(int p1, int p2, int p3, int p4, int o1, int o2, int o3, int o4);
 	Matrix4D();
-
+	~Matrix4D();
 	void deleteMatrix();
 
 	int getSize(int i);

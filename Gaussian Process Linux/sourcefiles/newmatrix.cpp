@@ -12,26 +12,31 @@ Matrix4D::Matrix4D(int p1, int p2, int p3, int p4)
 	order[1] = 1;
 	order[2] = 2;
 	order[3] = 3;
-	m = new Eigen::MatrixXd *[p1];
+	/*m = new Eigen::MatrixXd *[p1];
 	for (int i = 0; i < p1; i++)
 	{
 		m[i] = new Eigen::MatrixXd[p2];
-	}
-
-	for (int i = 0; i < p1; i++) {
-		for (int j = 0; j < p2; j++) {
-			m[i][j] = Eigen::MatrixXd(p3, p4);
-		}
-	}
+	}*/
+	vector< MatrixXd > temp(p2,MatrixXd(p3,p4));
+	m = vector< vector<MatrixXd> >(p1, temp);
 }
 
 Matrix4D::Matrix4D()
 {}
+Matrix4D::~Matrix4D()
+{
+	//this->deleteMatrix();
+}
 void Matrix4D::deleteMatrix()
 {
-	for (int i = 0; i < getSize(1); i++)
-		delete m[i];
-	delete[] m;
+	/*for (int i = 0; i < getSize(0); i++)
+	{
+		delete [] m[i];
+	}
+	delete [] m;*/
+	//cout << "adsf";
+	for (int i = 0; i<this->getSize(0); i++)
+	m[i].clear();
 }
 int Matrix4D::getSize(int i)
 {
@@ -63,127 +68,132 @@ MatrixXd& Matrix4D::operator() (unsigned p1, unsigned p2)
 }
 
 Matrix4D Matrix4D::permute(int order[4]) {
-
-	int idx[4];
-	//makeTimer(decl);
-	Matrix4D *newmatrix = new Matrix4D(this->size[order[0]], this->size[order[1]], this->size[order[2]], this->size[order[3]]);
-	//decl.stop();
-	//cout << "teste";
 	
+	int idx[4];
+
+	//makeTimer(decl);
+	//Matrix4D *newmatrix = new Matrix4D(this->size[order[0]], this->size[order[1]], this->size[order[2]], this->size[order[3]]);
+	Matrix4D newmatrix = Matrix4D(this->size[order[0]], this->size[order[1]], this->size[order[2]], this->size[order[3]]);
+	//decl.stop();
+
+	//cout << this->m[0][0] << endl;
 	//transfers the data to the new matrix with the new indexes
 	//makeTimer(set);
 	//MatrixXd temp(this->size[order[2]], this->size[order[3]]);
-		for (idx[0] = 0; idx[0] < this->getSize(0); idx[0]++)
+	for (idx[0] = 0; idx[0] < this->getSize(0); idx[0]++)
 	{
-			for (idx[1] = 0; idx[1] < this->getSize(1); idx[1]++)
+		for (idx[1] = 0; idx[1] < this->getSize(1); idx[1]++)
+		{
+			for (idx[2] = 0; idx[2] < this->getSize(2); idx[2]++)
 			{
-				for (idx[2] = 0; idx[2] < this->getSize(2); idx[2]++)
+				for (idx[3] = 0; idx[3] < this->getSize(3); idx[3]++)
 				{
-					for (idx[3] = 0; idx[3] < this->getSize(3); idx[3]++)
-					{
-						//cout << idx[order[2]] << ' ' << idx[order[3]] << ' ' << temp.rows() << ' ' << temp.cols() << endl;
-						//temp(idx[order[2]], idx[order[3]]) = this->m[idx[0]][idx[1]](idx[2], idx[3]);
-						(*newmatrix)(idx[order[0]], idx[order[1]], idx[order[2]], idx[order[3]]) = this->m[idx[0]][idx[1]](idx[2], idx[3]);
-					}
+					//cout << idx[order[2]] << ' ' << idx[order[3]] << ' ' << temp.rows() << ' ' << temp.cols() << endl;
+					//temp(idx[order[2]], idx[order[3]]) = this->m[idx[0]][idx[1]](idx[2], idx[3]);
+					//(*newmatrix)(idx[order[0]], idx[order[1]], idx[order[2]], idx[order[3]]) = this->m[idx[0]][idx[1]](idx[2], idx[3]);
+					newmatrix(idx[order[0]], idx[order[1]], idx[order[2]], idx[order[3]]) = this->m[idx[0]][idx[1]](idx[2], idx[3]);
+
 				}
-				//(*newmatrix).m[idx[order[0]]][idx[order[1]]] = temp;
 			}
+			//(*newmatrix).m[idx[order[0]]][idx[order[1]]] = temp;
+		}
 
 	}
 	//	set.stop();
-	return *newmatrix;
+	return newmatrix;
 
 }
+
 Matrix4D Matrix4D::repmat(int order[4]) {
 	int idx[4];
 	int newsizes[4] = { order[0] * this->getSize(0), order[1] * this->getSize(1), order[2] * this->getSize(2), order[3] * this->getSize(3) };
-	Matrix4D *newmatrix = new Matrix4D(newsizes[0], newsizes[1], newsizes[2], newsizes[3]);
+	Matrix4D newmatrix = Matrix4D(newsizes[0], newsizes[1], newsizes[2], newsizes[3]);
 	
-	for (idx[0] = 0; idx[0] < newmatrix->getSize(0); idx[0]++)
+	for (idx[0] = 0; idx[0] < newmatrix.getSize(0); idx[0]++)
 	{
-		for (idx[1] = 0; idx[1] < newmatrix->getSize(1); idx[1]++)
+		for (idx[1] = 0; idx[1] < newmatrix.getSize(1); idx[1]++)
 		{
-			for (idx[2] = 0; idx[2] < newmatrix->getSize(2); idx[2]++)
-				for (idx[3] = 0; idx[3] < newmatrix->getSize(3); idx[3]++)
+			for (idx[2] = 0; idx[2] < newmatrix.getSize(2); idx[2]++)
+				for (idx[3] = 0; idx[3] < newmatrix.getSize(3); idx[3]++)
 				{
 
-					newmatrix->m[idx[0]][idx[1]](idx[2], idx[3]) = this->m[idx[0] % this->getSize(0)][idx[1] % this->getSize(1)](idx[2] % this->getSize(2), idx[3] % this->getSize(3));
+					newmatrix.m[idx[0]][idx[1]](idx[2], idx[3]) = this->m[idx[0] % this->getSize(0)][idx[1] % this->getSize(1)](idx[2] % this->getSize(2), idx[3] % this->getSize(3));
 
 				}
 		}
 	}
-	return *newmatrix;
+	return newmatrix;
 }
 
 Matrix4D repmat(Eigen::MatrixXd matrix, int order[4]) {
 	int idx[4];
 	int newsizes[4] = { order[0] * matrix.rows(), order[1] * matrix.cols(), order[2], order[3] };
-	Matrix4D *newmatrix = new Matrix4D(newsizes[0], newsizes[1], newsizes[2], newsizes[3]);
+	Matrix4D newmatrix = Matrix4D(newsizes[0], newsizes[1], newsizes[2], newsizes[3]);
 
 	//cout << "a = " << newmatrix->getSize(0) << " b = " << newmatrix->getSize(1) << " c = " << newmatrix->getSize(2) << " d = " << newmatrix->getSize(3) << endl;
-
-	for (idx[0] = 0; idx[0] < newmatrix->getSize(0); idx[0]++)
+	//cout << matrix << endl;
+	for (idx[0] = 0; idx[0] < newmatrix.getSize(0); idx[0]++)
 	{
-		for (idx[1] = 0; idx[1] < newmatrix->getSize(1); idx[1]++)
+		for (idx[1] = 0; idx[1] < newmatrix.getSize(1); idx[1]++)
 		{
-			for (idx[2] = 0; idx[2] < newmatrix->getSize(2); idx[2]++)
-				for (idx[3] = 0; idx[3] < newmatrix->getSize(3); idx[3]++)
+			for (idx[2] = 0; idx[2] < newmatrix.getSize(2); idx[2]++)
+				for (idx[3] = 0; idx[3] < newmatrix.getSize(3); idx[3]++)
 				{
-
-					newmatrix->m[idx[0]][idx[1]](idx[2], idx[3]) = matrix(idx[0] % matrix.rows(), idx[1] % matrix.cols());
-					//cout << idx[0] << " " << idx[1] << " " << idx[2] << " " << idx[3] << endl;
+					
+					newmatrix.m[idx[0]][idx[1]](idx[2], idx[3]) = matrix(idx[0] % matrix.rows(), idx[1] % matrix.cols());
 				}
 		}
 	}
-	return *newmatrix;
+	//cout << "newmatrix " << endl << newmatrix->m[0][0] << endl;
+	return newmatrix;
 }
 
 Matrix4D repmat(Matrix4D matrix, int order[4]) {
 	int idx[4];
 	int newsizes[4] = { order[0] * matrix.getSize(0), order[1] * matrix.getSize(1), order[2] * matrix.getSize(2), order[3] * matrix.getSize(3) };
-	Matrix4D *newmatrix = new Matrix4D(newsizes[0], newsizes[1], newsizes[2], newsizes[3]);
+	Matrix4D newmatrix = Matrix4D(newsizes[0], newsizes[1], newsizes[2], newsizes[3]);
 
 	//cout << "a = " << newmatrix->getSize(0) << " b = " << newmatrix->getSize(1) << " c = " << newmatrix->getSize(2) << " d = " << newmatrix->getSize(3) << endl;
 	//newmatrix->m[0][0](1, 2) = (matrix)(remainder(idx[0], matrix.rows()), remainder(idx[1], matrix.cols()));
 
-	for (idx[0] = 0; idx[0] < newmatrix->getSize(0); idx[0]++)
+	for (idx[0] = 0; idx[0] < newmatrix.getSize(0); idx[0]++)
 	{
-		for (idx[1] = 0; idx[1] < newmatrix->getSize(1); idx[1]++)
+		for (idx[1] = 0; idx[1] < newmatrix.getSize(1); idx[1]++)
 		{
-			for (idx[2] = 0; idx[2] < newmatrix->getSize(2); idx[2]++)
-				for (idx[3] = 0; idx[3] < newmatrix->getSize(3); idx[3]++)
+			for (idx[2] = 0; idx[2] < newmatrix.getSize(2); idx[2]++)
+				for (idx[3] = 0; idx[3] < newmatrix.getSize(3); idx[3]++)
 				{
 
-					newmatrix->m[idx[0]][idx[1]](idx[2], idx[3]) = matrix.m[idx[0] % matrix.getSize(0)][idx[1] % matrix.getSize(1)](idx[2] % matrix.getSize(2), idx[3] % matrix.getSize(3));
+					newmatrix.m[idx[0]][idx[1]](idx[2], idx[3]) = matrix.m[idx[0] % matrix.getSize(0)][idx[1] % matrix.getSize(1)](idx[2] % matrix.getSize(2), idx[3] % matrix.getSize(3));
 					
 				}
 		}
 	}
-	return *newmatrix;
+	return newmatrix;
 }
 
 MatrixXd repmat(Eigen::MatrixXd matrix, double order[2]) {
 	int idx[2];
 	int newsizes[2] = { order[0] * matrix.rows(), order[1] * matrix.cols() };
-	MatrixXd *newmatrix = new MatrixXd(newsizes[0], newsizes[1]);
-	*newmatrix = MatrixXd::Zero(newsizes[0], newsizes[1]);
+	MatrixXd newmatrix = MatrixXd::Zero(newsizes[0], newsizes[1]);
 	//cout << *newmatrix << endl;
-	for (idx[0] = 0; idx[0] < newmatrix->rows(); idx[0]++)
+	for (idx[0] = 0; idx[0] < newmatrix.rows(); idx[0]++)
 	{
-		for (idx[1] = 0; idx[1] < newmatrix->cols(); idx[1]++)
+		for (idx[1] = 0; idx[1] < newmatrix.cols(); idx[1]++)
 		{
-			(*newmatrix)(idx[0], idx[1]) = matrix(idx[0] % matrix.rows(), idx[1] % matrix.cols());
+			(newmatrix)(idx[0], idx[1]) = matrix(idx[0] % matrix.rows(), idx[1] % matrix.cols());
 		}
 	}
-	return *newmatrix;
+	return newmatrix;
 }
 
 Matrix4D mmat(Matrix4D* A, Matrix4D* B) { //mmat(A,B,[1 2]) default
-	Matrix4D m3, m4;
-
-	m3 = (*A).permute(new int[4]{ 2, 3 ,0 ,1 });
-	m4 = (*B).permute(new int[4]{ 2, 3 ,0 ,1 });
-
+	//Matrix4D m3, m4;
+	int temp[4] = { 2, 3 ,0 ,1 };
+	//tic(permute)
+	//m3 = (*A).permute(temp);
+	//m4 = (*B).permute(temp);
+	//toc(permute)
 	/*auto future = std::async(&Matrix4D::permute, A, new int[4]{ 2, 3 ,0 ,1 });
 	auto future2 = std::async(&Matrix4D::permute, B, new int[4]{ 2, 3 ,0 ,1 });
 
@@ -199,6 +209,8 @@ Matrix4D mmat(Matrix4D* A, Matrix4D* B) { //mmat(A,B,[1 2]) default
 	//AA.resize(m3(0, 0).rows()*m3.getSize(0)*m3.getSize(1), m3(0, 0).cols());
 	//BB.resize(m4(0, 0).rows(), m4(0, 0).cols()*m4.getSize(1)*m4.getSize(0));
 	//#pragma omp parallel for collapse(2) num_threads(1)
+	//tic(old)
+	/*
 	for (int i = 0; i < m3.getSize(0); i++)
 	{
 		for (int j = 0; j < m3.getSize(1); j++)
@@ -216,18 +228,64 @@ Matrix4D mmat(Matrix4D* A, Matrix4D* B) { //mmat(A,B,[1 2]) default
 					for (int k = 0; k < m4(i, j).rows(); k++)
 						newMatrix(n, m) += m3(i, j)(n,k)*m4(i, j)(k,m);
 				}
-			m3(i, j) = newMatrix;*/
+			m3(i, j) = newMatrix;\
 			
 			
 		}
 	}
+	*/
 	
+	//toc(old)
+		
+		//Matrix4D tempor = Matrix4D(m3.permute(temp).getSize(0), m3.permute(temp).getSize(1), m3.permute(temp).getSize(2), m3.permute(temp).getSize(3));
+		Matrix4D tempor = Matrix4D((*A).getSize(0), (*B).getSize(1), (*A).getSize(2), (*A).getSize(3));
+	//tic(neww)
+	
+	for (int k = 0; k < (*B).getSize(0); k++)
+	 {
+		 
+		 for (int m = 0; m < (*B).getSize(1); m++)
+		 {
+			 
+			 for (int n = 0; n < (*A).getSize(0); n++)
+			 {
+				 #pragma omp parallel for num_threads(3)
+				for (int j = 0; j < (*A).getSize(3); j++)
+					{
+						#pragma omp simd
+						for (int i = 0; i < (*A).getSize(2); i++)
+							{
+						/*
+						cout << endl << "tempor" << endl << tempor(n, m, i, j) << endl;
+						cout << endl << " (*A)(n,k,i,j)" << endl << (*A)(n, k, i, j) << endl;
+						cout << endl << " (*B)(k,m,i,j)" << endl << (*B)(k, m, i, j) << endl;
+						cout << endl << "i " << i << " (*A).getSize(2) " << (*A).getSize(2) << " (*B).getSize(2) " << (*B).getSize(2) << " tempor.getSize(2) " << tempor.getSize(2) << endl
+							<< "j " << j << " (*A).getSize(3) " << (*A).getSize(3) << " (*B).getSize(3) " << (*B).getSize(3) << " tempor.getSize(3) " << tempor.getSize(3) << endl
+							<< "m " << m << " (*B).getSize(1) " << (*B).getSize(1) << " tempor.getSize(1) " << tempor.getSize(1) << endl
+							<< "n " << n << " (*A).getSize(0) " << (*A).getSize(0) << " tempor.getSize(0) " << tempor.getSize(0) << endl
+							<< "k " << k << " (*A).getSize(1) " << (*A).getSize(1) << " (*B).getSize(0) " << (*B).getSize(0) << endl;
+						cout << "i " << i << endl;
+						cout << tempor.m[n][m].rows() << " " << tempor.m[n][m].cols() << endl;
+						cout << (*A).m[n][m].rows() << " " << (*A).m[n][m].cols() << endl;
+						cout << (*B).m[n][m].rows() << " " << (*B).m[n][m].cols() << endl;*/
+						//double ultratemp = (*A)(n, k, i, j)*(*B)(k, m, i, j);
+
+							tempor(n, m, i, j) += (*A)(n, k, i, j)*(*B)(k, m, i, j);
+						}
+				}
+			}
+		}
+		
+	}
+
+		//toc(neww)
 	//timeMult.stop();
 	//cout << "mmat time = " << duration(timeNow() - t1) << "microseconds" << endl;
 	//cout << "mmat() end " << endl;
-	m3.size[2] = m3.m[0][0].rows();
-	m3.size[3] = m3.m[0][0].cols();
-	return m3.permute(new int[4]{ 2, 3 ,0 ,1 });
+	//m3.size[2] = m3.m[0][0].rows();
+	//m3.size[3] = m3.m[0][0].cols();
+	return tempor;
+	//return m3.permute(temp);
 }
 
 MatrixXd Matrix4D::return2DMatrix(int dimensions[2], int index[2])
