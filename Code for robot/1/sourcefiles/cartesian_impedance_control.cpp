@@ -49,6 +49,7 @@ using namespace std;
 struct
 {
 	Eigen::Vector3d position = Vector3d::Zero(), velocity = Vector3d::Zero(), acceleration = Vector3d::Zero();
+	int timeStep = 0;
 	bool newData = false;
 	mutex mtx;
 } dataNow{};
@@ -79,25 +80,73 @@ void make_prediction()
 	MatrixXd Xfu_mean = readMatrix("sonig/Xfu_mean");
 	MatrixXd Xfu_cov = readMatrix("sonig/Xfu_cov");
 	MatrixXd XKuu = readMatrix("sonig/XKuu");
-	//read values for the sonigV
-	MatrixXd Vhyp_lx = readMatrix("sonig/sonigV.hyp.lx");
-	double Vhyp_ly = readMatrix("sonig/sonigV.hyp.ly")(0, 0);
-	MatrixXd VXu = readMatrix("sonig/sonigV.Xu");
-	MatrixXd Vfu_mean = readMatrix("sonig/Vfu_mean");
-	MatrixXd Vfu_cov = readMatrix("sonig/Vfu_cov");
-	MatrixXd VKuu = readMatrix("sonig/VKuu");
-	//read trajectories
+	//read values for the sonigVX
+	MatrixXd VXhyp_lx = readMatrix("sonig/sonigV.hyp.lx");
+	double VXhyp_ly = readMatrix("sonig/sonigV.hyp.ly")(0, 0);
+	MatrixXd VXXu = readMatrix("sonig/sonigV.Xu");
+	MatrixXd VXfu_mean = readMatrix("sonig/Vfu_mean");
+	MatrixXd VXfu_cov = readMatrix("sonig/Vfu_cov");
+	MatrixXd VXKuu = readMatrix("sonig/VKuu");
+
+	
+	MatrixXd Yhyp_lx = readMatrix("sonig/Y/sonigX.hyp.lx");
+	double Yhyp_ly = readMatrix("sonig/Y/sonigX.hyp.ly")(0, 0);
+	MatrixXd YXu = readMatrix("sonig/Y/sonigX.Xu");
+	MatrixXd Yfu_mean = readMatrix("sonig/Y/Xfu_mean");
+	MatrixXd Yfu_cov = readMatrix("sonig/Y/Xfu_cov");
+	MatrixXd YKuu = readMatrix("sonig/Y/XKuu");
+	//read values for the sonigVX
+	MatrixXd VYhyp_lx = readMatrix("sonig/Y/sonigV.hyp.lx");
+	double VYhyp_ly = readMatrix("sonig/Y/sonigV.hyp.ly")(0, 0);
+	MatrixXd VYXu = readMatrix("sonig/Y/sonigV.Xu");
+	MatrixXd VYfu_mean = readMatrix("sonig/Y/Vfu_mean");
+	MatrixXd VYfu_cov = readMatrix("sonig/Y/Vfu_cov");
+	MatrixXd VYKuu = readMatrix("sonig/Y/VKuu");
+
+	
+	MatrixXd ZXhyp_lx = readMatrix("sonig/Z/sonigX.hyp.lx");
+	double Zhyp_ly = readMatrix("sonig/Z/sonigX.hyp.ly")(0, 0);
+	MatrixXd ZXu = readMatrix("sonig/Z/sonigX.Xu");
+	MatrixXd Zfu_mean = readMatrix("sonig/Z/Xfu_mean");
+	MatrixXd Zfu_cov = readMatrix("sonig/Z/Xfu_cov");
+	MatrixXd ZKuu = readMatrix("sonig/Z/XKuu");
+	//read values for the sonigVX
+	MatrixXd VZhyp_lx = readMatrix("sonig/Z/sonigV.hyp.lx");
+	double VZhyp_ly = readMatrix("sonig/Z/sonigV.hyp.ly")(0, 0);
+	MatrixXd VZXu = readMatrix("sonig/Z/sonigV.Xu");
+	MatrixXd VZfu_mean = readMatrix("sonig/Z/Vfu_mean");
+	MatrixXd VZfu_cov = readMatrix("sonig/Z/Vfu_cov");
+	MatrixXd VZKuu = readMatrix("sonig/Z/VKuu");
 	
 	Sonig sonigX(Xhyp_lx, Xhyp_ly, XXu, Xfu_mean, Xfu_cov, XKuu);
-	Sonig sonigV(Vhyp_lx, Vhyp_ly, VXu, Vfu_mean, Vfu_cov, VKuu);
-	distribution xPDist, vPDist;
+	Sonig sonigVX(VXhyp_lx, VXhyp_ly, VXXu, VXfu_mean, VXfu_cov, VXKuu);
+	
+	Sonig sonigY(Yhyp_lx, Yhyp_ly, YXu, Yfu_mean, Yfu_cov, YKuu);
+	Sonig sonigVY(VYhyp_lx, VYhyp_ly, VYXu, VYfu_mean, VYfu_cov, VYKuu);	
+	
+	Sonig sonigZ(Zhyp_lx, Zhyp_ly, ZXu, Zfu_mean, Zfu_cov, ZKuu);
+	Sonig sonigVZ(VZhyp_lx, VZhyp_ly, VZXu, VZfu_mean, VZfu_cov, VZKuu);
+	
+	distribution xPDist, vxPDist, yPDist, vyPDist, zPDist, vzPDist;
 	MatrixXd vMean = MatrixXd::Zero(2, 1), vCov = MatrixXd::Zero(2, 2), xMean = MatrixXd::Zero(3, 1), xCov = MatrixXd::Zero(3, 3);
 
-	vPDist.mean = MatrixXd::Zero(1, 1);
-	vPDist.cov = MatrixXd::Zero(1, 1);
+	vxPDist.mean = MatrixXd::Zero(1, 1);
+	vxPDist.cov = MatrixXd::Zero(1, 1);
 
 	xPDist.mean = MatrixXd::Zero(1, 1);
 	xPDist.cov = MatrixXd::Zero(1, 1);
+	
+	vyPDist.mean = MatrixXd::Zero(1, 1);
+	vyPDist.cov = MatrixXd::Zero(1, 1);
+
+	yPDist.mean = MatrixXd::Zero(1, 1);
+	yPDist.cov = MatrixXd::Zero(1, 1);
+	
+	vzPDist.mean = MatrixXd::Zero(1, 1);
+	vzPDist.cov = MatrixXd::Zero(1, 1);
+
+	zPDist.mean = MatrixXd::Zero(1, 1);
+	zPDist.cov = MatrixXd::Zero(1, 1);
 
 	MatrixXd predMean(PRED_STEPS, 3);
 	MatrixXd predCov(PRED_STEPS, 3);
@@ -110,37 +159,53 @@ void make_prediction()
 			makeTimer(predTime);
 
 			dataNow.mtx.lock();
+			int calculatedTimestep = dataNow.timeStep;
 			xPDist.mean << dataNow.position(0);
-			vPDist.mean << dataNow.velocity(0);
+			vxPDist.mean << dataNow.velocity(0);
+			yPDist.mean << dataNow.position(1);
+			vyPDist.mean << dataNow.velocity(1);
+			zPDist.mean << dataNow.position(2);
+			vzPDist.mean << dataNow.velocity(2);
 			dataNow.newData = false;
 			dataNow.mtx.unlock();
 			xPDist.cov << 0.0000000001;
-			vPDist.cov << 0.0000000001;
+			vxPDist.cov << 0.0000000001;
 			
 			//later we have to convert actual time to timesteps here
-			int calculatedTimestep = 0;
+			
 			for (int i = 0; i < (PRED_STEPS); i++)
 			{
 				
-				vMean << calculatedTimestep + 1, vPDist.mean;
-				vCov << 0.0000001, 0, 0, vPDist.cov;
-				vPDist = sonigV.sonigStochasticPrediction(vMean, vCov);
-				//vPDist = sonigV.sonigStochasticPrediction(vMean, vCov);
-				//vPDist = sonigV.sonigStochasticPrediction(vMean, vCov);
+				vMean << calculatedTimestep + 1, vxPDist.mean;
+				vCov << 0.0000001, 0, 0, vxPDist.cov;
+				vxPDist = sonigVX.sonigStochasticPrediction(vMean, vCov);
 
-				xMean << vPDist.mean, calculatedTimestep + 1, xPDist.mean;
+				xMean << vxPDist.mean, calculatedTimestep + 1, xPDist.mean;
 				xCov << 0.03, 0, 0, 0, 0.0000001, 0, 0, 0, xPDist.cov;
-
-				//xPDist = sonigX.sonigStochasticPrediction(xMean, xCov);
-				//xPDist = sonigX.sonigStochasticPrediction(xMean, xCov);
 				xPDist = sonigX.sonigStochasticPrediction(xMean, xCov);
-				predMean(i, 0) = xPDist.mean(0);
-				predMean(i, 1) = 0;
-				predMean(i, 2) = 0;
-				predCov(i, 0) = xPDist.cov(0);
-				predCov(i, 1) = 0;
-				predCov(i, 2) = 0; //can i apply the transformation to the variance just like that
+				
+				vMean << calculatedTimestep + 1, vyPDist.mean;
+				vCov << 0.0000001, 0, 0, vyPDist.cov;
+				vyPDist = sonigVY.sonigStochasticPrediction(vMean, vCov);
 
+				xMean << vyPDist.mean, calculatedTimestep + 1, yPDist.mean;
+				xCov << 0.03, 0, 0, 0, 0.0000001, 0, 0, 0, yPDist.cov;
+				yPDist = sonigY.sonigStochasticPrediction(xMean, xCov);
+				
+				vMean << calculatedTimestep + 1, vzPDist.mean;
+				vCov << 0.0000001, 0, 0, vzPDist.cov;
+				vzPDist = sonigVZ.sonigStochasticPrediction(vMean, vCov);
+
+				xMean << vzPDist.mean, calculatedTimestep + 1, zPDist.mean;
+				xCov << 0.03, 0, 0, 0, 0.0000001, 0, 0, 0, zPDist.cov;
+				zPDist = sonigZ.sonigStochasticPrediction(xMean, xCov);
+				
+				predMean(i, 0) = xPDist.mean(0);
+				predMean(i, 1) = yPDist.mean(0);
+				predMean(i, 2) = zPDist.mean(0);
+				predCov(i, 0) = xPDist.cov(0);
+				predCov(i, 1) = yPDist.cov(0);
+				predCov(i, 2) = zPDist.cov(0); //can i apply the transformation to the variance just like that
 				calculatedTimestep++;
 			}
 			
@@ -171,8 +236,14 @@ void read_sensors() //this should read the sensors
 {
 	string s = "trajectory";
 	bool periodOver = false;
-	MatrixXd trajectoryV = readMatrix(s.c_str()).row(1);
+	MatrixXd trajectoryVX = readMatrix(s.c_str()).row(1);
 	MatrixXd trajectoryX = readMatrix(s.c_str()).row(0);
+	string s = "trajectoryY";
+	MatrixXd trajectoryVY = readMatrix(s.c_str()).row(1);
+	MatrixXd trajectoryY = readMatrix(s.c_str()).row(0);
+	string s = "trajectoryZ";
+	MatrixXd trajectoryVZ = readMatrix(s.c_str()).row(1);
+	MatrixXd trajectoryZ = readMatrix(s.c_str()).row(0);
 	int i = 0;
 	while (running)
 	{
@@ -187,7 +258,12 @@ void read_sensors() //this should read the sensors
 		}
 		dataNow.mtx.lock();
 		dataNow.position(0) = trajectoryX.col(i)(0);
-		dataNow.velocity(0) = trajectoryV.col(i)(0);
+		dataNow.velocity(0) = trajectoryVX.col(i)(0);
+		dataNow.position(1) = trajectoryY.col(i)(0);
+		dataNow.velocity(1) = trajectoryVY.col(i)(0);
+		dataNow.position(2) = trajectoryZ.col(i)(0);
+		dataNow.velocity(2) = trajectoryVZ.col(i)(0);
+		dataNow.timeStep++;
 		dataNow.newData = true;
 		dataNow.mtx.unlock();
 		if (i < (trajectoryV.cols()-1))
@@ -216,8 +292,13 @@ cout << "teste";
 
 	stiffness_original = stiffness;
 	
+	//NAO ESQUECER DAQUI AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAaa
+	//AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+	//AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+	Eigen::Vector3d offset1 = Vector3d::Zero();
+	offset1(0) = 1;
 	sensorToDataset = Transformation(MatrixXd::Identity(3,3), Vector3d::Zero(),1);
-	sensorToRobot = Transformation(MatrixXd::Identity(3, 3), Vector3d::Zero(), 1);
+	sensorToRobot = Transformation(MatrixXd::Identity(3, 3), offset1, 1);
 	
 	try {
 		// connect to robot
@@ -322,16 +403,39 @@ cout << "teste";
 			//updates reference and creates new trajectory
 			
 			//updates the "target value" used to generate the error used to generate torque
-			/*
-			if (timeTraj > 0.5 && timeStep < MIDDLE_POINTS_NUMBER)
+			
+			if (prediction.newPred)
 			{
-				//position_d = trajectory.row(timeStep);
-				position_d = position_d_initial;
-				timeStep++;
-				timeTraj = 0;
-			}*/
+				points.row(0)(0) = position(0);
+				points.row(0)(1) = position(1);
+				points.row(0)(2) = position(2);
 
+				points.row(1)(0) = prediction.mean[PRED_STEPS-1](0);
+				points.row(1)(1) = prediction.mean[PRED_STEPS-1](1);
+				points.row(1)(2) = prediction.mean[PRED_STEPS-1](2);
+				MatrixXd trajectory(MIDDLE_POINTS_NUMBER, 3); //trajectory are all the intermediate points that the robot goes through when going to the reference position
+				trajectory = generateTrajectory(points, MIDDLE_POINTS_NUMBER);
+				timeTraj = 0;
+				timeStep = 0;
+			}
+			
+			if(timeTraj > 0.1)
+			{
+				timeStep++;
+				if (timeStep > (MIDDLE_POINTS_NUMBER-1))
+					timeStep = (MIDDLE_POINTS_NUMBER-1);
+				
+				Vector3d temp1 = trajectory.row(timeStep);
+				//position_d(0) = trajectory(timeStep,0);
+				//position_d(1) = trajectory(timeStep,1);
+				//position_d(2) = trajectory(timeStep,2);	
+				position_d = sensorToRobot.apply(temp1);
+				timeTraj = 0;
+				cout << "\n" << position_d << "\n";
+				
+			}
 			position_d = position_d_initial;
+			
 			//calculates velocity
 			Vector3d x_dot = jacobian.topRows(3)*dq;
 
@@ -339,6 +443,8 @@ cout << "teste";
 			
 			record_xdot.push_back(x_dot);
 			record_x.push_back(position);
+			
+			
 			//end mine
 
 			
@@ -371,7 +477,7 @@ cout << "teste";
 			Eigen::VectorXd::Map(&tau_d_array[0], 7) = tau_d;
 
 			franka::Torques tau_final = franka::limitRate(franka::kMaxTorqueRate, tau_d_array, robot_state.tau_J_d);
-			if (timeRef > 10)
+			if (timeRef > 20)
 			{
 				running = false;
 				std::cout << std::endl << "Finished motion, shutting down example" << std::endl;

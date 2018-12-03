@@ -1,14 +1,15 @@
-load('../data/traindatasim.mat')
+load('../data/traindataallclass1.mat')
 stepsback=1;stepsahead=1;
 X = Xtrain;
 
 xtrain =[]; ttrain  =[];vtrain =[];ytrain =[]; endtraj = [];vtrainshift = [];
-for i = 1:size(X,2)
+ff = 2;
+for i = 1:2:size(X,2)
     ttrain = [ttrain; [1:size(X{i},2)]'];
-    xtrain = [xtrain; [X{i}(1,:)]'];
-    vtrain = [vtrain; [X{i}(4,:)]'];
-    vtrainshift = [vtrainshift; [X{i}(4,2:end) X{i}(4,end)]'];
-    endtraj = [endtraj; zeros(size([X{i}(1,:)]'))];
+    xtrain = [xtrain; [X{i}(ff,:)]'];
+    vtrain = [vtrain; [X{i}(ff+3,:)]'];
+    vtrainshift = [vtrainshift; [X{i}(ff+3,2:end) X{i}(ff+3,end)]'];
+    endtraj = [endtraj; zeros(size([X{i}(ff,:)]'))];
     endtraj((end-1)) = 1;
 end
 endtraj((end)) = 0;
@@ -20,7 +21,22 @@ evalc('[model, nigp] = trainNIGP(permute(xm(:,1:end),[2,1]),permute(ym(:,1:end),
 hyp = NIGPModelToHyperparameters(model)
 
 %%
-distance = 0.20;
+load('../data/traindataallclass1.mat')
+stepsback=1;stepsahead=1;
+X = Xtrain;
+
+xtrain =[]; ttrain  =[];vtrain =[];ytrain =[]; endtraj = [];vtrainshift = [];
+ff = 3;
+for i = 1:2:size(X,2)
+    ttrain = [ttrain; [1:size(X{i},2)]'];
+    xtrain = [xtrain; [X{i}(ff,:)]'];
+    vtrain = [vtrain; [X{i}(ff+3,:)]'];
+    vtrainshift = [vtrainshift; [X{i}(ff+3,2:end) X{i}(ff+3,end)]'];
+    endtraj = [endtraj; zeros(size([X{i}(ff,:)]'))];
+    endtraj((end-1)) = 1;
+end
+endtraj((end)) = 0;
+distance = 0.4;
 ly = 0.6;
 lv = ly;
 la = 6;
@@ -89,9 +105,9 @@ hyp.sy = sy;
 % xu = [vtrain(selxu)'; ttrain(selxu)'; xtrain(selxu)'];
 
 
-hyp.lx = [25.0370079811821;1.06221926100643]
-hyp.sx = [4.57630004290503;0.0052451756094707];
-hyp.ly = 0.560919610368498;
+hyp.lx = [25;0.8]*1;
+hyp.sx = [4.57630004290503;0.0052451756094707]*01;
+hyp.ly = 0.560919610368498*1;
 hyp.sy = 0.00155019635324873;
 sonigV = createSONIG(hyp);
 sonigV.addIIPDistance = distance;
@@ -155,14 +171,13 @@ for count = (stepsback + 1):(size(vtrain,1)-stepsahead-1)
     %
 end
 
-%%
 which = 2;
 load('../data/testdataclass1.mat')
-xselected = Xpred{which}(1,:);
-xselectedshift = [Xpred{which}(1,1) Xpred{which}(1,1:(end-1))];
-vselectedshift = [Xpred{which}(4,1) Xpred{which}(4,1:(end-1))];
-vselected = Xpred{which}(4,:);
-aselected = Xpred{which}(7,:);
+xselected = Xpred{which}(ff,:);
+xselectedshift = [Xpred{which}(ff,1) Xpred{which}(ff,1:(end-1))];
+vselectedshift = [Xpred{which}(ff+3,1) Xpred{which}(ff+3,1:(end-1))];
+vselected = Xpred{which}(ff+3,:);
+aselected = Xpred{which}(ff+6,:);
 tselected = 1:size(xselected,2);
 
 figure(2);

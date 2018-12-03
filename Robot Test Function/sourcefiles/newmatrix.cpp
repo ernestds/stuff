@@ -88,8 +88,6 @@ Matrix4D Matrix4D::permute(int order[4]) {
 			{
 				for (idx[3] = 0; idx[3] < this->getSize(3); idx[3]++)
 				{
-					//cout << idx[order[2]] << ' ' << idx[order[3]] << ' ' << temp.rows() << ' ' << temp.cols() << endl;
-					//temp(idx[order[2]], idx[order[3]]) = this->m[idx[0]][idx[1]](idx[2], idx[3]);
 					//(*newmatrix)(idx[order[0]], idx[order[1]], idx[order[2]], idx[order[3]]) = this->m[idx[0]][idx[1]](idx[2], idx[3]);
 					newmatrix(idx[order[0]], idx[order[1]], idx[order[2]], idx[order[3]]) = this->m[idx[0]][idx[1]](idx[2], idx[3]);
 
@@ -108,7 +106,7 @@ Matrix4D Matrix4D::repmat(int order[4]) {
 	int idx[4];
 	int newsizes[4] = { order[0] * this->getSize(0), order[1] * this->getSize(1), order[2] * this->getSize(2), order[3] * this->getSize(3) };
 	Matrix4D newmatrix = Matrix4D(newsizes[0], newsizes[1], newsizes[2], newsizes[3]);
-	
+
 	for (idx[0] = 0; idx[0] < newmatrix.getSize(0); idx[0]++)
 	{
 		for (idx[1] = 0; idx[1] < newmatrix.getSize(1); idx[1]++)
@@ -177,6 +175,7 @@ MatrixXd repmat(Eigen::MatrixXd matrix, double order[2]) {
 	int newsizes[2] = { order[0] * matrix.rows(), order[1] * matrix.cols() };
 	MatrixXd newmatrix = MatrixXd::Zero(newsizes[0], newsizes[1]);
 	//cout << *newmatrix << endl;
+
 	for (idx[0] = 0; idx[0] < newmatrix.rows(); idx[0]++)
 	{
 		for (idx[1] = 0; idx[1] < newmatrix.cols(); idx[1]++)
@@ -252,7 +251,7 @@ Matrix4D mmat(Matrix4D* A, Matrix4D* B) { //mmat(A,B,[1 2]) default
 				 #pragma omp parallel for num_threads(3)
 				for (int j = 0; j < (*A).getSize(3); j++)
 					{
-						#pragma omp simd
+						//#pragma omp simd
 						for (int i = 0; i < (*A).getSize(2); i++)
 							{
 						/*

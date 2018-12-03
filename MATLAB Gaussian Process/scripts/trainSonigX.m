@@ -3,12 +3,13 @@ stepsback=1;stepsahead=1;
 X = Xtrain;
 
 xtrain =[]; ttrain  =[];vtrain =[];ytrain =[]; endtraj = [];xtrainshift = [];
+ff = 2;
 for i = 1:size(X,2)
     ttrain = [ttrain; [1:size(X{i},2)]'];
-    xtrain = [xtrain; [X{i}(1,:)]'];
-    vtrain = [vtrain; [X{i}(4,:)]'];
-    xtrainshift = [xtrainshift; [X{i}(1,2:end) X{i}(1,end)]'];
-    endtraj = [endtraj; zeros(size([X{i}(1,:)]'))];
+    xtrain = [xtrain; [X{i}(ff,:)]'];
+    vtrain = [vtrain; [X{i}(ff+3,:)]'];
+    xtrainshift = [xtrainshift; [X{i}(ff+3,2:end) X{i}(ff+3,end)]'];
+    endtraj = [endtraj; zeros(size([X{i}(ff,:)]'))];
     endtraj((end-1)) = 1;
 end
 endtraj((end)) = 0;
@@ -20,7 +21,22 @@ evalc('[model, nigp] = trainNIGP(permute(xm(:,1:end),[2,1]),permute(ym(:,1:end),
 hyp = NIGPModelToHyperparameters(model)
 
 %%
-distance = 0.18;
+load('../data/traindataallclass1.mat')
+stepsback=1;stepsahead=1;
+X = Xtrain;
+
+xtrain =[]; ttrain  =[];vtrain =[];ytrain =[]; endtraj = [];xtrainshift = [];
+ff = 3;
+for i = 1:size(X,2)
+    ttrain = [ttrain; [1:size(X{i},2)]'];
+    xtrain = [xtrain; [X{i}(ff,:)]'];
+    vtrain = [vtrain; [X{i}(ff+3,:)]'];
+    xtrainshift = [xtrainshift; [X{i}(ff+3,2:end) X{i}(ff+3,end)]'];
+    endtraj = [endtraj; zeros(size([X{i}(ff,:)]'))];
+    endtraj((end-1)) = 1;
+end
+endtraj((end)) = 0;
+distance = 0.2;
 
 
 %parameters that I found through trial and error
@@ -192,17 +208,17 @@ for count = (stepsback + 1):(size(xtrain,1)-stepsahead-1)
     %a(i,:) = outputDist.mean';
     %
 end
-%% 
+
 %validate
 
 which = 1;
 load('../data/testdataclass1.mat')
 
-xselected = Xpred{which}(1,:);
-xselectedshift = [Xpred{which}(1,1) Xpred{which}(1,1:(end-1))];
-vselectedshift = [Xpred{which}(4,1) Xpred{which}(4,1:(end-1))];
-vselected = Xpred{which}(4,:);
-aselected = Xpred{which}(7,:);
+xselected = Xpred{which}(ff,:);
+xselectedshift = [Xpred{which}(ff,1) Xpred{which}(ff,1:(end-1))];
+vselectedshift = [Xpred{which}(ff+3,1) Xpred{which}(ff+3,1:(end-1))];
+vselected = Xpred{which}(ff+3,:);
+aselected = Xpred{which}(ff+6,:);
 tselected = 1:size(xselected,2);
 
 figure(1)
