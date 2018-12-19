@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = "/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/gaussian process linux"
+CMAKE_SOURCE_DIR = "/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/toGIT/Gaussian Process Linux"
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = "/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/gaussian process linux/build"
+CMAKE_BINARY_DIR = "/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/toGIT/Gaussian Process Linux/build"
 
 # Include any dependencies generated for this target.
 include CMakeFiles/program.o.dir/depend.make
@@ -59,16 +59,16 @@ include CMakeFiles/program.o.dir/flags.make
 
 CMakeFiles/program.o.dir/sourcefiles/Sonig.cpp.o: CMakeFiles/program.o.dir/flags.make
 CMakeFiles/program.o.dir/sourcefiles/Sonig.cpp.o: ../sourcefiles/Sonig.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/gaussian process linux/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/program.o.dir/sourcefiles/Sonig.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/program.o.dir/sourcefiles/Sonig.cpp.o -c "/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/gaussian process linux/sourcefiles/Sonig.cpp"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/toGIT/Gaussian Process Linux/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/program.o.dir/sourcefiles/Sonig.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/program.o.dir/sourcefiles/Sonig.cpp.o -c "/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/toGIT/Gaussian Process Linux/sourcefiles/Sonig.cpp"
 
 CMakeFiles/program.o.dir/sourcefiles/Sonig.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/program.o.dir/sourcefiles/Sonig.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/gaussian process linux/sourcefiles/Sonig.cpp" > CMakeFiles/program.o.dir/sourcefiles/Sonig.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/toGIT/Gaussian Process Linux/sourcefiles/Sonig.cpp" > CMakeFiles/program.o.dir/sourcefiles/Sonig.cpp.i
 
 CMakeFiles/program.o.dir/sourcefiles/Sonig.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/program.o.dir/sourcefiles/Sonig.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/gaussian process linux/sourcefiles/Sonig.cpp" -o CMakeFiles/program.o.dir/sourcefiles/Sonig.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/toGIT/Gaussian Process Linux/sourcefiles/Sonig.cpp" -o CMakeFiles/program.o.dir/sourcefiles/Sonig.cpp.s
 
 CMakeFiles/program.o.dir/sourcefiles/Sonig.cpp.o.requires:
 
@@ -83,16 +83,16 @@ CMakeFiles/program.o.dir/sourcefiles/Sonig.cpp.o.provides.build: CMakeFiles/prog
 
 CMakeFiles/program.o.dir/sourcefiles/Source.cpp.o: CMakeFiles/program.o.dir/flags.make
 CMakeFiles/program.o.dir/sourcefiles/Source.cpp.o: ../sourcefiles/Source.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/gaussian process linux/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/program.o.dir/sourcefiles/Source.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/program.o.dir/sourcefiles/Source.cpp.o -c "/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/gaussian process linux/sourcefiles/Source.cpp"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/toGIT/Gaussian Process Linux/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/program.o.dir/sourcefiles/Source.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/program.o.dir/sourcefiles/Source.cpp.o -c "/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/toGIT/Gaussian Process Linux/sourcefiles/Source.cpp"
 
 CMakeFiles/program.o.dir/sourcefiles/Source.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/program.o.dir/sourcefiles/Source.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/gaussian process linux/sourcefiles/Source.cpp" > CMakeFiles/program.o.dir/sourcefiles/Source.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/toGIT/Gaussian Process Linux/sourcefiles/Source.cpp" > CMakeFiles/program.o.dir/sourcefiles/Source.cpp.i
 
 CMakeFiles/program.o.dir/sourcefiles/Source.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/program.o.dir/sourcefiles/Source.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/gaussian process linux/sourcefiles/Source.cpp" -o CMakeFiles/program.o.dir/sourcefiles/Source.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/toGIT/Gaussian Process Linux/sourcefiles/Source.cpp" -o CMakeFiles/program.o.dir/sourcefiles/Source.cpp.s
 
 CMakeFiles/program.o.dir/sourcefiles/Source.cpp.o.requires:
 
@@ -105,18 +105,42 @@ CMakeFiles/program.o.dir/sourcefiles/Source.cpp.o.provides: CMakeFiles/program.o
 CMakeFiles/program.o.dir/sourcefiles/Source.cpp.o.provides.build: CMakeFiles/program.o.dir/sourcefiles/Source.cpp.o
 
 
+CMakeFiles/program.o.dir/sourcefiles/miscFunctions.cpp.o: CMakeFiles/program.o.dir/flags.make
+CMakeFiles/program.o.dir/sourcefiles/miscFunctions.cpp.o: ../sourcefiles/miscFunctions.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/toGIT/Gaussian Process Linux/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/program.o.dir/sourcefiles/miscFunctions.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/program.o.dir/sourcefiles/miscFunctions.cpp.o -c "/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/toGIT/Gaussian Process Linux/sourcefiles/miscFunctions.cpp"
+
+CMakeFiles/program.o.dir/sourcefiles/miscFunctions.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/program.o.dir/sourcefiles/miscFunctions.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/toGIT/Gaussian Process Linux/sourcefiles/miscFunctions.cpp" > CMakeFiles/program.o.dir/sourcefiles/miscFunctions.cpp.i
+
+CMakeFiles/program.o.dir/sourcefiles/miscFunctions.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/program.o.dir/sourcefiles/miscFunctions.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/toGIT/Gaussian Process Linux/sourcefiles/miscFunctions.cpp" -o CMakeFiles/program.o.dir/sourcefiles/miscFunctions.cpp.s
+
+CMakeFiles/program.o.dir/sourcefiles/miscFunctions.cpp.o.requires:
+
+.PHONY : CMakeFiles/program.o.dir/sourcefiles/miscFunctions.cpp.o.requires
+
+CMakeFiles/program.o.dir/sourcefiles/miscFunctions.cpp.o.provides: CMakeFiles/program.o.dir/sourcefiles/miscFunctions.cpp.o.requires
+	$(MAKE) -f CMakeFiles/program.o.dir/build.make CMakeFiles/program.o.dir/sourcefiles/miscFunctions.cpp.o.provides.build
+.PHONY : CMakeFiles/program.o.dir/sourcefiles/miscFunctions.cpp.o.provides
+
+CMakeFiles/program.o.dir/sourcefiles/miscFunctions.cpp.o.provides.build: CMakeFiles/program.o.dir/sourcefiles/miscFunctions.cpp.o
+
+
 CMakeFiles/program.o.dir/sourcefiles/myTimer.cpp.o: CMakeFiles/program.o.dir/flags.make
 CMakeFiles/program.o.dir/sourcefiles/myTimer.cpp.o: ../sourcefiles/myTimer.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/gaussian process linux/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/program.o.dir/sourcefiles/myTimer.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/program.o.dir/sourcefiles/myTimer.cpp.o -c "/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/gaussian process linux/sourcefiles/myTimer.cpp"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/toGIT/Gaussian Process Linux/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/program.o.dir/sourcefiles/myTimer.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/program.o.dir/sourcefiles/myTimer.cpp.o -c "/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/toGIT/Gaussian Process Linux/sourcefiles/myTimer.cpp"
 
 CMakeFiles/program.o.dir/sourcefiles/myTimer.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/program.o.dir/sourcefiles/myTimer.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/gaussian process linux/sourcefiles/myTimer.cpp" > CMakeFiles/program.o.dir/sourcefiles/myTimer.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/toGIT/Gaussian Process Linux/sourcefiles/myTimer.cpp" > CMakeFiles/program.o.dir/sourcefiles/myTimer.cpp.i
 
 CMakeFiles/program.o.dir/sourcefiles/myTimer.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/program.o.dir/sourcefiles/myTimer.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/gaussian process linux/sourcefiles/myTimer.cpp" -o CMakeFiles/program.o.dir/sourcefiles/myTimer.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/toGIT/Gaussian Process Linux/sourcefiles/myTimer.cpp" -o CMakeFiles/program.o.dir/sourcefiles/myTimer.cpp.s
 
 CMakeFiles/program.o.dir/sourcefiles/myTimer.cpp.o.requires:
 
@@ -131,16 +155,16 @@ CMakeFiles/program.o.dir/sourcefiles/myTimer.cpp.o.provides.build: CMakeFiles/pr
 
 CMakeFiles/program.o.dir/sourcefiles/newmatrix.cpp.o: CMakeFiles/program.o.dir/flags.make
 CMakeFiles/program.o.dir/sourcefiles/newmatrix.cpp.o: ../sourcefiles/newmatrix.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/gaussian process linux/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/program.o.dir/sourcefiles/newmatrix.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/program.o.dir/sourcefiles/newmatrix.cpp.o -c "/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/gaussian process linux/sourcefiles/newmatrix.cpp"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir="/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/toGIT/Gaussian Process Linux/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/program.o.dir/sourcefiles/newmatrix.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/program.o.dir/sourcefiles/newmatrix.cpp.o -c "/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/toGIT/Gaussian Process Linux/sourcefiles/newmatrix.cpp"
 
 CMakeFiles/program.o.dir/sourcefiles/newmatrix.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/program.o.dir/sourcefiles/newmatrix.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/gaussian process linux/sourcefiles/newmatrix.cpp" > CMakeFiles/program.o.dir/sourcefiles/newmatrix.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E "/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/toGIT/Gaussian Process Linux/sourcefiles/newmatrix.cpp" > CMakeFiles/program.o.dir/sourcefiles/newmatrix.cpp.i
 
 CMakeFiles/program.o.dir/sourcefiles/newmatrix.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/program.o.dir/sourcefiles/newmatrix.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/gaussian process linux/sourcefiles/newmatrix.cpp" -o CMakeFiles/program.o.dir/sourcefiles/newmatrix.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S "/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/toGIT/Gaussian Process Linux/sourcefiles/newmatrix.cpp" -o CMakeFiles/program.o.dir/sourcefiles/newmatrix.cpp.s
 
 CMakeFiles/program.o.dir/sourcefiles/newmatrix.cpp.o.requires:
 
@@ -157,6 +181,7 @@ CMakeFiles/program.o.dir/sourcefiles/newmatrix.cpp.o.provides.build: CMakeFiles/
 program_o_OBJECTS = \
 "CMakeFiles/program.o.dir/sourcefiles/Sonig.cpp.o" \
 "CMakeFiles/program.o.dir/sourcefiles/Source.cpp.o" \
+"CMakeFiles/program.o.dir/sourcefiles/miscFunctions.cpp.o" \
 "CMakeFiles/program.o.dir/sourcefiles/myTimer.cpp.o" \
 "CMakeFiles/program.o.dir/sourcefiles/newmatrix.cpp.o"
 
@@ -165,11 +190,12 @@ program_o_EXTERNAL_OBJECTS =
 
 program.o: CMakeFiles/program.o.dir/sourcefiles/Sonig.cpp.o
 program.o: CMakeFiles/program.o.dir/sourcefiles/Source.cpp.o
+program.o: CMakeFiles/program.o.dir/sourcefiles/miscFunctions.cpp.o
 program.o: CMakeFiles/program.o.dir/sourcefiles/myTimer.cpp.o
 program.o: CMakeFiles/program.o.dir/sourcefiles/newmatrix.cpp.o
 program.o: CMakeFiles/program.o.dir/build.make
 program.o: CMakeFiles/program.o.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir="/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/gaussian process linux/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX executable program.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir="/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/toGIT/Gaussian Process Linux/build/CMakeFiles" --progress-num=$(CMAKE_PROGRESS_6) "Linking CXX executable program.o"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/program.o.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -179,6 +205,7 @@ CMakeFiles/program.o.dir/build: program.o
 
 CMakeFiles/program.o.dir/requires: CMakeFiles/program.o.dir/sourcefiles/Sonig.cpp.o.requires
 CMakeFiles/program.o.dir/requires: CMakeFiles/program.o.dir/sourcefiles/Source.cpp.o.requires
+CMakeFiles/program.o.dir/requires: CMakeFiles/program.o.dir/sourcefiles/miscFunctions.cpp.o.requires
 CMakeFiles/program.o.dir/requires: CMakeFiles/program.o.dir/sourcefiles/myTimer.cpp.o.requires
 CMakeFiles/program.o.dir/requires: CMakeFiles/program.o.dir/sourcefiles/newmatrix.cpp.o.requires
 
@@ -189,6 +216,6 @@ CMakeFiles/program.o.dir/clean:
 .PHONY : CMakeFiles/program.o.dir/clean
 
 CMakeFiles/program.o.dir/depend:
-	cd "/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/gaussian process linux/build" && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" "/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/gaussian process linux" "/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/gaussian process linux" "/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/gaussian process linux/build" "/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/gaussian process linux/build" "/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/gaussian process linux/build/CMakeFiles/program.o.dir/DependInfo.cmake" --color=$(COLOR)
+	cd "/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/toGIT/Gaussian Process Linux/build" && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" "/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/toGIT/Gaussian Process Linux" "/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/toGIT/Gaussian Process Linux" "/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/toGIT/Gaussian Process Linux/build" "/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/toGIT/Gaussian Process Linux/build" "/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/toGIT/Gaussian Process Linux/build/CMakeFiles/program.o.dir/DependInfo.cmake" --color=$(COLOR)
 .PHONY : CMakeFiles/program.o.dir/depend
 

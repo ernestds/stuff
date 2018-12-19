@@ -48,10 +48,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = "/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/gaussian process linux"
+CMAKE_SOURCE_DIR = "/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/toGIT/Gaussian Process Linux"
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = "/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/gaussian process linux/build"
+CMAKE_BINARY_DIR = "/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/toGIT/Gaussian Process Linux/build"
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -80,9 +80,9 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start "/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/gaussian process linux/build/CMakeFiles" "/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/gaussian process linux/build/CMakeFiles/progress.marks"
+	$(CMAKE_COMMAND) -E cmake_progress_start "/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/toGIT/Gaussian Process Linux/build/CMakeFiles" "/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/toGIT/Gaussian Process Linux/build/CMakeFiles/progress.marks"
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start "/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/gaussian process linux/build/CMakeFiles" 0
+	$(CMAKE_COMMAND) -E cmake_progress_start "/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/toGIT/Gaussian Process Linux/build/CMakeFiles" 0
 .PHONY : all
 
 # The main clean target
@@ -177,6 +177,33 @@ sourcefiles/Source.cpp.s:
 	$(MAKE) -f CMakeFiles/program.o.dir/build.make CMakeFiles/program.o.dir/sourcefiles/Source.cpp.s
 .PHONY : sourcefiles/Source.cpp.s
 
+sourcefiles/miscFunctions.o: sourcefiles/miscFunctions.cpp.o
+
+.PHONY : sourcefiles/miscFunctions.o
+
+# target to build an object file
+sourcefiles/miscFunctions.cpp.o:
+	$(MAKE) -f CMakeFiles/program.o.dir/build.make CMakeFiles/program.o.dir/sourcefiles/miscFunctions.cpp.o
+.PHONY : sourcefiles/miscFunctions.cpp.o
+
+sourcefiles/miscFunctions.i: sourcefiles/miscFunctions.cpp.i
+
+.PHONY : sourcefiles/miscFunctions.i
+
+# target to preprocess a source file
+sourcefiles/miscFunctions.cpp.i:
+	$(MAKE) -f CMakeFiles/program.o.dir/build.make CMakeFiles/program.o.dir/sourcefiles/miscFunctions.cpp.i
+.PHONY : sourcefiles/miscFunctions.cpp.i
+
+sourcefiles/miscFunctions.s: sourcefiles/miscFunctions.cpp.s
+
+.PHONY : sourcefiles/miscFunctions.s
+
+# target to generate assembly for a file
+sourcefiles/miscFunctions.cpp.s:
+	$(MAKE) -f CMakeFiles/program.o.dir/build.make CMakeFiles/program.o.dir/sourcefiles/miscFunctions.cpp.s
+.PHONY : sourcefiles/miscFunctions.cpp.s
+
 sourcefiles/myTimer.o: sourcefiles/myTimer.cpp.o
 
 .PHONY : sourcefiles/myTimer.o
@@ -246,6 +273,9 @@ help:
 	@echo "... sourcefiles/Source.o"
 	@echo "... sourcefiles/Source.i"
 	@echo "... sourcefiles/Source.s"
+	@echo "... sourcefiles/miscFunctions.o"
+	@echo "... sourcefiles/miscFunctions.i"
+	@echo "... sourcefiles/miscFunctions.s"
 	@echo "... sourcefiles/myTimer.o"
 	@echo "... sourcefiles/myTimer.i"
 	@echo "... sourcefiles/myTimer.s"

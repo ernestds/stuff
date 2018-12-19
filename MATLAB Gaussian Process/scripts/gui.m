@@ -62,6 +62,8 @@ global testset trainsetall trainsetdiff trainsetsim
 load('data/traindatasim.mat');
 trainsetsim = Xtrain;
 load('data/traindatadiffclass17.mat');
+load('data/xxlfilt.mat');
+load('data/xx.mat');
 trainsetdiff = Xtrain;
 load('data/traindataallclass1.mat');
 trainsetall = Xtrain;
@@ -74,6 +76,12 @@ end
 global xselected vselected;
 xselected = testset{1}(1,:);
 vselected = testset{1}(4,:);
+xselected = xx(1,:);
+vselected = xxlfilt(1,:);
+xselected = xselected(end:-1:1);
+vselected = vselected(end:-1:1);
+xselected = xselected(1:2:end);
+vselected = vselected(1:2:end);
 global stepstopredict
 stepstopredict = 40;
 makeplot(handles);
@@ -252,6 +260,8 @@ popup_sel_index = get(handles.popupmenu2, 'Value');
 global xselected vselected testset;
 xselected = testset{popup_sel_index}(1,:);
 vselected = testset{popup_sel_index}(4,:);
+xselected
+vselected
 global iter
 if iter >= size(xselected,2)
     iter = size(xselected,2) - 1;

@@ -7,10 +7,10 @@ Transformation::Transformation(MatrixXd rot, Vector3d oset, double scale)
 	offset = oset;
 	scaling = scale;
 	RotationMatrix_Inv = rot.inverse();
-
 };
 Eigen::Vector3d Transformation::apply(Eigen::Vector3d data) //data is (1,3) [x,y,z]
 {
+	//cout << RotationMatrix << endl << data << endl << scaling << endl << offset << endl;
 	return RotationMatrix * data*scaling + offset;
 	//xx = Transform.R*Yl'*Transform.s + Transform.t;
 };

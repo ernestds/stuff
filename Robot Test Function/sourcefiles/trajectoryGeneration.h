@@ -1,5 +1,6 @@
 #pragma once
 #include <Eigen/Dense>
+#include <iostream>
 #include <unsupported/Eigen/Polynomials>
 #include <unsupported/Eigen/Splines>
 using namespace std;

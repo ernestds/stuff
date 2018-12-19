@@ -24,7 +24,8 @@ using namespace Eigen;
 struct
 {
 	Eigen::Vector3d position = Vector3d::Zero(), velocity = Vector3d::Zero(), acceleration = Vector3d::Zero();
-	bool newData;
+	int timeStep = 0;
+	bool newData = false;
 	mutex mtx;
 } dataNow{};
 
@@ -141,22 +142,141 @@ void make_prediction()
 
 }
 
-void lala()
+#define SENSOR_PERIOD (1.0 / 120.0)
+#define FILTER_FREQ 20
+void read_sensors() //this should read the sensors
 {
-	while (true)
+	string s = "trajectory";
+	bool periodOver = false;
+	MatrixXd trajectoryVX = readMatrix(s.c_str()).row(1);
+	MatrixXd trajectoryX = readMatrix(s.c_str()).row(0);
+	string s1 = "trajectoryY";
+	MatrixXd trajectoryVY = readMatrix(s1.c_str()).row(1);
+	MatrixXd trajectoryY = readMatrix(s1.c_str()).row(0);
+	string s2 = "trajectoryZ";
+	MatrixXd trajectoryVZ = readMatrix(s2.c_str()).row(1);
+	MatrixXd trajectoryZ = readMatrix(s2.c_str()).row(0);
+	int i = 0;
+
+	Vector3d lastPos, lastVel;
+	lastPos << trajectoryX.col(i)(0), trajectoryY.col(i)(0), trajectoryZ.col(i)(0);
+	lastVel << 0, 0, 0;
+
+	dataNow.position(0) = trajectoryX.col(i)(0);
+	dataNow.position(1) = trajectoryY.col(i)(0);
+	dataNow.position(2) = trajectoryZ.col(i)(0);
+	//cout << trajectoryZ << endl;
+	while (running)
 	{
-		if (prediction.newPred);
+		periodOver = false;
+		auto t1 = std::chrono::high_resolution_clock::now();
+		while (!periodOver)
 		{
-			//cout << "new prediction!" << endl;
-			//prediction.newPred = false;
+			auto t2 = std::chrono::high_resolution_clock::now();
+			auto diff = t2 - t1;
+			if (chrono::duration <double, milli>(diff).count() > SENSOR_PERIOD)
+				periodOver = true;
 		}
+
+
+		dataNow.mtx.lock();
+		if (dataNow.timeStep < 120)
+		{
+			dataNow.timeStep++;
+			dataNow.newData = true;
+			lastPos = dataNow.position;
+			lastVel = dataNow.velocity;
+		}
+
+		dataNow.position(0) = trajectoryX.col(i)(0);
+		dataNow.position(1) = trajectoryY.col(i)(0);
+		dataNow.position(2) = trajectoryZ.col(i)(0);
+
+		
+		dataNow.velocity = (dataNow.position - lastPos) / SENSOR_PERIOD;
+		Vector3d unfilt_acc = (dataNow.velocity - lastVel) / SENSOR_PERIOD;
+
+		dataNow.acceleration = -dataNow.acceleration*(SENSOR_PERIOD* FILTER_FREQ - 1) + unfilt_acc * FILTER_FREQ * SENSOR_PERIOD;
+		
+		//cout << i << endl << dataNow.acceleration << endl << endl;
+		//Yllfilt(i) = Yllonline(i)*w*Ts - Yllfilt(i-1)*(Ts*w-1);
+
+
+		dataNow.mtx.unlock();
+		if (i < (trajectoryVX.cols() - 1))
+			i++;
 	}
+}
+MatrixXd polynomialTraj(Vector3d iPos, Vector3d iVel, Vector3d iAcc, Vector3d fPos, double tf, int num_points)
+{
+	//makeTimer(aa);
+	MatrixXd A(6, 6);
+	VectorXd b(6);
+	MatrixXd result(num_points, 3);
+	double t = tf;
+	A << 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 1, t, t *t, t*t*t, t*t*t*t, t*t*t*t*t, 0, 1, 2 * t, 3 * t*t, 4 * t*t*t, 5 * t*t*t*t, 0, 0, 2, 6 * t, 12 * t*t, 20 * t*t*t;
+	/*A <<
+		1, 0, 0, 0, 0, 0,
+		0, 1, 0, 0, 0, 0,
+		0, 0, 2, 0, 0, 0,
+		1, tf, tf *tf, tf*tf*tf, tf*tf*tf*tf, tf*tf*tf*tf*tf, 
+		0, 1, 2 * tf, 3 * tf*tf, 4 * tf*tf*tf, 5 * tf*tf*tf*tf,
+		0, 0, 2, 6 * tf, 12 * tf*tf, 20 * tf*tf*tf;*/
+
+	MatrixXd temp(num_points, 6);
+	for (int i = 0; i < 6; i++)
+		for (int j = 0; j < num_points; j++)
+			temp(j, i) = pow(((double)(j + 1) * tf / (double)num_points), i);
+
+	
+
+	
+	for (int n = 0; n < 3; n++) {
+		//[trajectoryY(1,i); Ylonline(i); Yllonline(i); trajectoryY(1,50); 0; 0];
+		b << iPos(n), iVel(n), iAcc(n), fPos(n), 0, 0;
+		result.col(n) = temp * (A.inverse()*b);
+
+	}
+	//aa.stop();
+	return result;
 }
 int main()
 {
+	sensorToDataset = Transformation((MatrixXd(3, 3) << 1, 0, 0, 0, 0, 1, 0, -1, 0).finished(), (Vector3d() << 0, 0, 0).finished(), 1);
+	sensorToRobot = Transformation((MatrixXd(3,3) << 1, 0, 0, 0,0,1, 0,-1,0).finished(), (Vector3d() << 1, 1, 1).finished(), 1);
+	std::thread t2 = thread(read_sensors);
 
-	sensorToDataset = Transformation(MatrixXd::Identity(3,3), Vector3d::Zero(),1);
-	sensorToRobot = Transformation(MatrixXd::Identity(3, 3), Vector3d::Zero(), 1);
+	// A = [1 0 0 0 0 0; 0 1 0 0 0 0; 0 0 2 0 0 0; 1 t t ^ 2 t ^ 3 t ^ 4 t ^ 5; 0 1 2 * t 3 * t ^ 2 4 * t ^ 3  5 * t ^ 4; 0 0 2 6 * t 12 * t ^ 2 20 * t ^ 3];
+	// b = [trajectoryY(1, i); Ylonline(i); Yllonline(i); trajectoryY(1, 50); 0; 0];
+
+	Vector3d pos, vel, acc, posf;
+	pos << -0.2513, -0.1365, 0;
+	vel << -0.1280, 0.1248, 0;
+	acc << -2.9376, 1.1808, 0;
+	posf << -0.4611, 0.0339, 0;
+	polynomialTraj(pos, vel, acc, posf, 2, 21);
+	polynomialTraj(pos, vel, acc, posf, 2, 22);
+	cout << polynomialTraj(pos, vel, acc, posf, 2, 20) << endl;
+	
+
+	/*
+	for i=1:6
+    k=0;
+    for j=2/100:2/100:2
+        k=k+1;
+        vec(k,i) = j^(i-1);
+    end
+end*/
+
+	//cout << ans;
+	while (true) {
+		if (dataNow.newData)
+		{
+			//dataNow.newData = false;
+			//cout << dataNow.velocity << endl;
+		}
+	};
+
 	string s = "trajectory";
 	MatrixXd trajectoryV = readMatrix(s.c_str()).row(1);
 	MatrixXd trajectoryX = readMatrix(s.c_str()).row(0);
@@ -173,7 +293,6 @@ int main()
 
 
 	std::thread prediction_thread = thread(&make_prediction);
-	std::thread t2= thread(lala);
 
 	prediction_thread.join();
 	running = false;

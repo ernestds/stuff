@@ -46,3 +46,36 @@ MatrixXd readMatrix(const char *filename)
 	}
 	return X;
 };
+
+template<class dataType>
+void recorder::push_back<dataType>(dataType a)
+{
+	data.push_back(a);
+};
+template<class dataType>
+void recorder::save<dataType>(string name)
+{
+	std::ofstream file(name);
+	for (const auto &temp : data)
+	{
+		file << temp;
+		file << "\n";
+	}
+	file.close();
+};
+template<>
+void recorder::push_back<Vector3d>(Vector3d a)
+{
+	data.push_back(a);
+}
+template<>
+void recorder::save<Vector3d>(string name)
+{
+	std::ofstream file(name);
+	for (const auto &temp : data)
+	{
+		file << temp.transpose();
+		file << "\n";
+	}
+	file.close();
+}

@@ -2,10 +2,12 @@
 
 #include "newmatrix.h"
 #include <algorithm> 
+#include <string> 
 #include<fstream>
 #include<stdio.h>
 #include "Sonig.h"
 #include "myTimer.h"
+#include "miscFunctions.h"
 #include <string>
 // ...
 
@@ -67,37 +69,53 @@ void curve_plot(MatrixXd pred, MatrixXd trueTraj)
 }
 
 #define MAXBUFSIZE  ((int) 1e6)
-
-MatrixXd readMatrix(const char *filename)
-{//
-	ifstream fin(filename);
-
-	int nrows, ncols;
-	fin >> nrows;
-	fin >> ncols;
-	//cout << nrows << " " << ncols << endl;
-	MatrixXd X = MatrixXd::Zero(nrows, ncols);
-
-
-	if (fin.is_open())
+template<class dataType>
+class recorder
+{
+	
+	std::vector<dataType> data;
+public:
+	void push_back(dataType a)
 	{
-		for (int row = 0; row < nrows; row++)
-			for (int col = 0; col < ncols; col++)
-			{
-				
-				double item = 0.0;
-				fin >> item;
-				X(row, col) = (double)item;
-			}
-		fin.close();
+		data.push_back(a);
 	}
-	return X;
+	void save(string name)
+	{
+		std::ofstream file(name);
+		for (const auto &temp : data)
+		{
+			file << temp;
+			file << "\n";
+		}
+		file.close();
+	}
+};
+template<>
+class recorder <Vector3d>
+{
+	std::vector<Vector3d> data;
+public:
+	void push_back(Vector3d a)
+	{
+		data.push_back(a);
+	}
+	void save(string name)
+	{
+		std::ofstream file(name);
+		for (const auto &temp : data)
+		{
+			file << temp.transpose();
+			file << "\n";
+		}
+		file.close();
+	}
 };
 int main()
 {
-
-
-
+	recorder<Vector3d> oi;
+	oi.push_back(Vector3d::Zero()); oi.push_back(Vector3d::Zero()); oi.push_back(Vector3d::Zero());
+	oi.save("teste");
+	while (true);
 	//read values for the sonigX
 	MatrixXd Xhyp_lx = readMatrix("sonig/sonigX.hyp.lx");
 	//cout << "hyp_lx " << hyp_lx << endl;

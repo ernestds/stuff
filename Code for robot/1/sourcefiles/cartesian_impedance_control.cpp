@@ -42,7 +42,7 @@ using namespace std;
 
 
 #define MIDDLE_POINTS_NUMBER 5
-#define PRED_STEPS 30
+#define PRED_STEPS 10
 
 
 
@@ -68,9 +68,15 @@ struct Predictions
 Predictions prediction;
 Transformation sensorToDataset, sensorToRobot;
 std::atomic_bool running{ true };
-std::vector<Vector3d> record_xdot;
-std::vector<Vector3d> record_x;
 
+std::vector<Vector3d> record_prediction(0,Eigen::Vector3d());
+std::vector<Vector3d> record_gen_pos_ref(0,Eigen::Vector3d());
+std::vector<Vector3d> record_covariance(0,Eigen::Vector3d());
+std::vector<Vector3d> record_K_values(0,Eigen::Vector3d());
+std::vector<Vector3d> record_position(0,Eigen::Vector3d());
+
+double totalTime = 0;
+int totalIter = 0;
 void make_prediction()
 {
 	
@@ -104,7 +110,7 @@ void make_prediction()
 	MatrixXd VYKuu = readMatrix("sonig/Y/VKuu");
 
 	
-	MatrixXd ZXhyp_lx = readMatrix("sonig/Z/sonigX.hyp.lx");
+	MatrixXd Zhyp_lx = readMatrix("sonig/Z/sonigX.hyp.lx");
 	double Zhyp_ly = readMatrix("sonig/Z/sonigX.hyp.ly")(0, 0);
 	MatrixXd ZXu = readMatrix("sonig/Z/sonigX.Xu");
 	MatrixXd Zfu_mean = readMatrix("sonig/Z/Xfu_mean");
@@ -150,14 +156,17 @@ void make_prediction()
 
 	MatrixXd predMean(PRED_STEPS, 3);
 	MatrixXd predCov(PRED_STEPS, 3);
-	
+	bool periodOver = false;
 	while (running)
 	{
 		//
-		//if (dataNow.newData)
+		//cout << "sfa" << endl;
+		auto t3 = std::chrono::high_resolution_clock::now();
+		if (dataNow.newData)
 		{
-			makeTimer(predTime);
 
+			//cout << dataNow.newData << endl;
+			auto t1 = std::chrono::high_resolution_clock::now();
 			dataNow.mtx.lock();
 			int calculatedTimestep = dataNow.timeStep;
 			xPDist.mean << dataNow.position(0);
@@ -170,9 +179,14 @@ void make_prediction()
 			dataNow.mtx.unlock();
 			xPDist.cov << 0.0000000001;
 			vxPDist.cov << 0.0000000001;
+
+			yPDist.cov << 0.0000000001;
+			vyPDist.cov << 0.0000000001;
+						zPDist.cov << 0.0000000001;
+			vzPDist.cov << 0.0000000001;
 			
 			//later we have to convert actual time to timesteps here
-			
+				
 			for (int i = 0; i < (PRED_STEPS); i++)
 			{
 				
@@ -183,7 +197,8 @@ void make_prediction()
 				xMean << vxPDist.mean, calculatedTimestep + 1, xPDist.mean;
 				xCov << 0.03, 0, 0, 0, 0.0000001, 0, 0, 0, xPDist.cov;
 				xPDist = sonigX.sonigStochasticPrediction(xMean, xCov);
-				
+			
+
 				vMean << calculatedTimestep + 1, vyPDist.mean;
 				vCov << 0.0000001, 0, 0, vyPDist.cov;
 				vyPDist = sonigVY.sonigStochasticPrediction(vMean, vCov);
@@ -224,8 +239,22 @@ void make_prediction()
 
 			}
 			prediction.mtx.unlock();
-			predTime.stop();
-			//cout << prediction.mean[PRED_STEPS - 1](0) << endl; 
+			
+			auto t2 = std::chrono::high_resolution_clock::now();
+			auto diff = t2 - t1;
+			totalTime += chrono::duration <double, milli>(diff).count();
+			totalIter++;
+			//cout << endl << prediction.mean[0] << endl;
+			//cout << prediction.mean[PRED_STEPS - 1](0) << endl;
+			//cout << prediction.mean[PRED_STEPS-1] << endl;
+		}
+				periodOver = false;
+		while (!periodOver)
+		{
+			auto t4 = std::chrono::high_resolution_clock::now();
+			auto difff = t4 - t3;
+			if (chrono::duration <double, milli>(difff).count() > 100.0)
+				periodOver = true;
 		}
 	} //while(running)
 
@@ -238,13 +267,15 @@ void read_sensors() //this should read the sensors
 	bool periodOver = false;
 	MatrixXd trajectoryVX = readMatrix(s.c_str()).row(1);
 	MatrixXd trajectoryX = readMatrix(s.c_str()).row(0);
-	string s = "trajectoryY";
-	MatrixXd trajectoryVY = readMatrix(s.c_str()).row(1);
-	MatrixXd trajectoryY = readMatrix(s.c_str()).row(0);
-	string s = "trajectoryZ";
-	MatrixXd trajectoryVZ = readMatrix(s.c_str()).row(1);
-	MatrixXd trajectoryZ = readMatrix(s.c_str()).row(0);
+	string s1 = "trajectoryY";
+	MatrixXd trajectoryVY = readMatrix(s1.c_str()).row(1);
+	MatrixXd trajectoryY = readMatrix(s1.c_str()).row(0);
+	string s2 = "trajectoryZ";
+	MatrixXd trajectoryVZ = readMatrix(s2.c_str()).row(1);
+	MatrixXd trajectoryZ = readMatrix(s2.c_str()).row(0);
 	int i = 0;
+
+	//cout << trajectoryZ << endl;
 	while (running)
 	{
 		periodOver = false;
@@ -253,7 +284,7 @@ void read_sensors() //this should read the sensors
 		{
 			auto t2 = std::chrono::high_resolution_clock::now();
 			auto diff = t2 - t1;
-			if (chrono::duration <double, milli>(diff).count() < 1000.0)
+			if (chrono::duration <double, milli>(diff).count() > 100.0)
 				periodOver = true;
 		}
 		dataNow.mtx.lock();
@@ -266,18 +297,22 @@ void read_sensors() //this should read the sensors
 		dataNow.timeStep++;
 		dataNow.newData = true;
 		dataNow.mtx.unlock();
-		if (i < (trajectoryV.cols()-1))
+		if (i < (trajectoryVX.cols()-1))
 			i++;
 	}
 }
 
 int main(int argc, char** argv) {
 	// Check whether the required arguments were passed
-cout << "teste";
 	if (argc != 2) {
 		std::cerr << "Usage: " << argv[0] << " <robot-hostname>" << std::endl;
 		return -1;
 	}
+	record_prediction.reserve(20000);
+	record_gen_pos_ref.reserve(20000);
+	record_covariance.reserve(20000);
+	record_K_values.reserve(20000);
+	record_position.reserve(20000);
 	// Compliance parameters
 	const double translational_stiffness{ 150.0 };
 	const double rotational_stiffness{ 10.0 };
@@ -297,6 +332,7 @@ cout << "teste";
 	//AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 	Eigen::Vector3d offset1 = Vector3d::Zero();
 	offset1(0) = 1;
+	offset1(2) = -0.4;
 	sensorToDataset = Transformation(MatrixXd::Identity(3,3), Vector3d::Zero(),1);
 	sensorToRobot = Transformation(MatrixXd::Identity(3, 3), offset1, 1);
 	
@@ -354,9 +390,9 @@ cout << "teste";
 		points.row(0)(1) = position_d_initial(1);
 		points.row(0)(2) = position_d_initial(2);
 
-		points.row(1)(0) = endpoint[refIndex](0);
-		points.row(1)(1) = endpoint[refIndex](1);
-		points.row(1)(2) = endpoint[refIndex](2);
+		points.row(1)(0) = position_d_initial(0);
+		points.row(1)(1) = position_d_initial(1);
+		points.row(1)(2) = position_d_initial(2);
 
 
 		MatrixXd trajectory(MIDDLE_POINTS_NUMBER, 3); //trajectory are all the intermediate points that the robot goes through when going to the reference position
@@ -367,12 +403,13 @@ cout << "teste";
 
 
 
+
 		
 		std::function<franka::Torques(const franka::RobotState&, franka::Duration)>
 			impedance_control_callback = [&](const franka::RobotState& robot_state,
 				franka::Duration period/*duration*/) -> franka::Torques {
 			// get state variables
-				cout << "Control loop " << endl;
+				//cout << "Control loop " << endl;
 			std::array<double, 7> coriolis_array = model.coriolis(robot_state);
 			std::array<double, 42> jacobian_array =
 				model.zeroJacobian(franka::Frame::kEndEffector, robot_state);
@@ -397,8 +434,9 @@ cout << "teste";
 			timeRef += period.toSec();
 
 			//reduces stiffness according to uncertainty
-			stiffness = stiffness_original * (100 - uncertainty) / 100;
-
+			stiffness(0,0) = stiffness_original(0,0) * (1 - prediction.variance[PRED_STEPS-1](0)/0.0015);
+			stiffness(1,1) = stiffness_original(1,1) * (1 - prediction.variance[PRED_STEPS-1](1)/0.0023);
+			//stiffness(2,2) = stiffness_original(2,2) * (1 - prediction.variance[PRED_STEPS-1](2));
 
 			//updates reference and creates new trajectory
 			
@@ -406,6 +444,8 @@ cout << "teste";
 			
 			if (prediction.newPred)
 			{
+				Vector3d dist_to_pred = prediction.mean[PRED_STEPS-1] + offset1 - position;
+
 				points.row(0)(0) = position(0);
 				points.row(0)(1) = position(1);
 				points.row(0)(2) = position(2);
@@ -413,13 +453,17 @@ cout << "teste";
 				points.row(1)(0) = prediction.mean[PRED_STEPS-1](0);
 				points.row(1)(1) = prediction.mean[PRED_STEPS-1](1);
 				points.row(1)(2) = prediction.mean[PRED_STEPS-1](2);
-				MatrixXd trajectory(MIDDLE_POINTS_NUMBER, 3); //trajectory are all the intermediate points that the robot goes through when going to the reference position
-				trajectory = generateTrajectory(points, MIDDLE_POINTS_NUMBER);
-				timeTraj = 0;
-				timeStep = 0;
+				points.row(1) += offset1;
+				//MatrixXd trajectory(MIDDLE_POINTS_NUMBER, 3); //trajectory are all the intermediate points that the robot goes through when going to the reference position
+				trajectory = generateTrajectory(points, ceil(dist_to_pred.norm()*20));
+				prediction.newPred = false;
+				//cout << trajectory << endl << endl;
+				//timeTraj = 0;
+				//cout << endl << prediction.variance[PRED_STEPS-1] << endl;
+				timeStep = 1;
 			}
 			
-			if(timeTraj > 0.1)
+			if(timeTraj > 0.05)
 			{
 				timeStep++;
 				if (timeStep > (MIDDLE_POINTS_NUMBER-1))
@@ -429,21 +473,29 @@ cout << "teste";
 				//position_d(0) = trajectory(timeStep,0);
 				//position_d(1) = trajectory(timeStep,1);
 				//position_d(2) = trajectory(timeStep,2);	
-				position_d = sensorToRobot.apply(temp1);
+				//position_d = sensorToRobot.apply(temp1);
 				timeTraj = 0;
-				cout << "\n" << position_d << "\n";
+				//
+				position_d = temp1;
+				//cout << endl << temp1 << endl;
+				
 				
 			}
-			position_d = position_d_initial;
+			//cout << "\n" << position_d << "\n";
+			//position_d = position_d_initial;
 			
 			//calculates velocity
 			Vector3d x_dot = jacobian.topRows(3)*dq;
 
 			//saves data for recording
 			
-			record_xdot.push_back(x_dot);
-			record_x.push_back(position);
-			
+			record_position.push_back(position);
+			record_prediction.push_back(prediction.mean[PRED_STEPS-1]);
+			record_covariance.push_back(prediction.variance[PRED_STEPS-1]);
+			Vector3d tempK;
+			tempK << stiffness(0,0),stiffness(1,1),stiffness(2,2);
+			record_K_values.push_back(tempK);
+			record_gen_pos_ref.push_back(position_d);
 			
 			//end mine
 
@@ -477,7 +529,7 @@ cout << "teste";
 			Eigen::VectorXd::Map(&tau_d_array[0], 7) = tau_d;
 
 			franka::Torques tau_final = franka::limitRate(franka::kMaxTorqueRate, tau_d_array, robot_state.tau_J_d);
-			if (timeRef > 20)
+			if (timeRef > 7)
 			{
 				running = false;
 				std::cout << std::endl << "Finished motion, shutting down example" << std::endl;
@@ -486,15 +538,18 @@ cout << "teste";
 			return tau_final;
 		};
 		// start real-time control loop
-		std::cout << "WARNING: Collision thresholds are set to high values. "
+
+		std::thread prediction_thread;
+		std::thread sensor_thread;
+						std::cout << "WARNING: Collision thresholds are set to high values. "
 			<< "Make sure you have the user stop at hand!" << std::endl
 			<< "After starting try to push the robot and see how it reacts." << std::endl
 			<< "Press Enter to continue..." << std::endl;
-		std::cin.ignore();
-		std::thread prediction_thread;
-		std::thread sensor_thread;
+		
+			std::cin.ignore();
 		prediction_thread = thread(&make_prediction);
 		sensor_thread = thread(&read_sensors);
+
 		robot.control(impedance_control_callback);
 		running = false;
 		prediction_thread.join();
@@ -508,25 +563,56 @@ cout << "teste";
 
 	cout << "Saving data..." << endl;
 	//saves data
-	std::ofstream output_file_xdot;
-	output_file_xdot.open("data_x_dot_record.txt");
-	for (unsigned long i = 0; i < record_xdot.size(); i++)
-	{
-		for (unsigned int ii = 0; ii < 3; ii++)
-			output_file_xdot << "\t" << record_xdot[i][ii];
-		output_file_xdot << "\r\n";
-	}
-	output_file_xdot.close();
+	std::ofstream output_file_position;
 
-	std::ofstream output_file_x;
-	output_file_xdot.open("data_x_record.txt");
-	for (unsigned long i = 0; i < record_x.size(); i++)
+	output_file_position.open("record_position.txt");
+	for (unsigned long i = 0; i < record_position.size(); i++)
 	{
 		for (unsigned int ii = 0; ii < 3; ii++)
-			output_file_x << "\t" << record_x[i][ii];
-		output_file_x << "\r\n";
+			output_file_position << "\t" << record_position[i][ii];
+		output_file_position << "\r\n";
 	}
-	output_file_x.close();
+	output_file_position.close();
+
+	std::ofstream output_file_covariance;
+	output_file_covariance.open("record_covariance.txt");
+	for (unsigned long i = 0; i < record_covariance.size(); i++)
+	{
+		for (unsigned int ii = 0; ii < 3; ii++)
+			output_file_covariance << "\t" << record_covariance[i][ii];
+		output_file_covariance << "\r\n";
+	}
+	output_file_covariance.close();
+
+	std::ofstream output_file_prediction;
+	output_file_prediction.open("record_prediction.txt");
+	for (unsigned long i = 0; i < record_prediction.size(); i++)
+	{
+		for (unsigned int ii = 0; ii < 3; ii++)
+			output_file_prediction << "\t" << record_prediction[i][ii];
+		output_file_prediction << "\r\n";
+	}
+	output_file_prediction.close();
+
+	std::ofstream output_file_K_values;
+	output_file_K_values.open("record_K_values.txt");
+	for (unsigned long i = 0; i < record_K_values.size(); i++)
+	{
+		for (unsigned int ii = 0; ii < 3; ii++)
+			output_file_K_values << "\t" << record_K_values[i][ii];
+		output_file_K_values << "\r\n";
+	}
+	output_file_K_values.close();
+
+	std::ofstream output_file_reference;
+	output_file_reference.open("record_reference.txt");
+	for (unsigned long i = 0; i < record_gen_pos_ref.size(); i++)
+	{
+		for (unsigned int ii = 0; ii < 3; ii++)
+			output_file_reference << "\t" << record_gen_pos_ref[i][ii];
+		output_file_reference << "\r\n";
+	}
+	output_file_reference.close();
 
 	return 0;
 }

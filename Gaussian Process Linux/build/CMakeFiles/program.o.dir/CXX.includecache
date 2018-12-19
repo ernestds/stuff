@@ -6,11 +6,11 @@
 
 #IncludeRegexTransform: 
 
-/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/gaussian process linux/sourcefiles/Sonig.cpp
+/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/toGIT/Gaussian Process Linux/sourcefiles/Sonig.cpp
 Sonig.h
-/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/gaussian process linux/sourcefiles/Sonig.h
+/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/toGIT/Gaussian Process Linux/sourcefiles/Sonig.h
 
-/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/gaussian process linux/sourcefiles/Sonig.h
+/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/toGIT/Gaussian Process Linux/sourcefiles/Sonig.h
 iostream
 -
 iomanip
@@ -26,33 +26,47 @@ cmath
 Eigen/Dense
 -
 newmatrix.h
-/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/gaussian process linux/sourcefiles/newmatrix.h
+/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/toGIT/Gaussian Process Linux/sourcefiles/newmatrix.h
 myTimer.h
-/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/gaussian process linux/sourcefiles/myTimer.h
+/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/toGIT/Gaussian Process Linux/sourcefiles/myTimer.h
 
-/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/gaussian process linux/sourcefiles/Source.cpp
+/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/toGIT/Gaussian Process Linux/sourcefiles/Source.cpp
 iostream
 -
 newmatrix.h
-/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/gaussian process linux/sourcefiles/newmatrix.h
+/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/toGIT/Gaussian Process Linux/sourcefiles/newmatrix.h
 algorithm
+-
+string
 -
 fstream
 -
 stdio.h
 -
 Sonig.h
-/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/gaussian process linux/sourcefiles/Sonig.h
+/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/toGIT/Gaussian Process Linux/sourcefiles/Sonig.h
 myTimer.h
-/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/gaussian process linux/sourcefiles/myTimer.h
+/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/toGIT/Gaussian Process Linux/sourcefiles/myTimer.h
+miscFunctions.h
+/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/toGIT/Gaussian Process Linux/sourcefiles/miscFunctions.h
 string
 -
 
-/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/gaussian process linux/sourcefiles/myTimer.cpp
-myTimer.h
-/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/gaussian process linux/sourcefiles/myTimer.h
+/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/toGIT/Gaussian Process Linux/sourcefiles/miscFunctions.cpp
+miscFunctions.h
+/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/toGIT/Gaussian Process Linux/sourcefiles/miscFunctions.h
 
-/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/gaussian process linux/sourcefiles/myTimer.h
+/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/toGIT/Gaussian Process Linux/sourcefiles/miscFunctions.h
+Eigen/Dense
+-
+fstream
+-
+
+/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/toGIT/Gaussian Process Linux/sourcefiles/myTimer.cpp
+myTimer.h
+/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/toGIT/Gaussian Process Linux/sourcefiles/myTimer.h
+
+/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/toGIT/Gaussian Process Linux/sourcefiles/myTimer.h
 string
 -
 chrono
@@ -60,11 +74,11 @@ chrono
 iostream
 -
 
-/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/gaussian process linux/sourcefiles/newmatrix.cpp
+/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/toGIT/Gaussian Process Linux/sourcefiles/newmatrix.cpp
 newmatrix.h
-/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/gaussian process linux/sourcefiles/newmatrix.h
+/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/toGIT/Gaussian Process Linux/sourcefiles/newmatrix.h
 
-/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/gaussian process linux/sourcefiles/newmatrix.h
+/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/toGIT/Gaussian Process Linux/sourcefiles/newmatrix.h
 iostream
 -
 Eigen/Dense
@@ -80,10 +94,12 @@ stdexcept
 cmath
 -
 myTimer.h
-/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/gaussian process linux/sourcefiles/myTimer.h
+/mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/toGIT/Gaussian Process Linux/sourcefiles/myTimer.h
 mutex
 -
 thread
+-
+vector
 -
 atomic
 -

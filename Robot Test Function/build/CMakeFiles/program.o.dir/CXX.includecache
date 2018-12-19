@@ -63,6 +63,8 @@ miscFunctions.h
 /mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/toGIT/Robot Test Function/sourcefiles/miscFunctions.h
 
 /mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/toGIT/Robot Test Function/sourcefiles/miscFunctions.h
+iostream
+-
 Eigen/Dense
 -
 fstream
@@ -118,6 +120,8 @@ trajectoryGeneration.h
 
 /mnt/c/Users/ernes/Desktop/OK AGORA FICA BOM/toGIT/Robot Test Function/sourcefiles/trajectoryGeneration.h
 Eigen/Dense
+-
+iostream
 -
 unsupported/Eigen/Polynomials
 -
